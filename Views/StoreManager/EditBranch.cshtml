@@ -1,0 +1,118 @@
+﻿@model SakraStats.storestat
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> selectlistbranch = ViewBag.selectlistbranch;
+    List<SelectListItem> selectliststore = ViewBag.selectliststore;
+    List<SelectListItem> selectlistproduct = ViewBag.selectlistproduct;
+    if (ViewBag.confirm==null)
+    {
+        ViewBag.confirm = false;
+    }
+}
+<form id="__AjaxAntiForgeryForm" action="#" method="post">
+    @Html.AntiForgeryToken()
+</form>
+<script language="javascript" type="text/javascript">
+    function EditStores(selectedbranchid) {
+        var procemessage = "<option value='0'> Please wait...</option>";
+        $("#StoreID").html(procemessage).show();
+        var url = "/StoreManager/GetStores/";
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        $.ajax({
+            url: url,
+            data: { __RequestVerificationToken: token, selectedbranchid: selectedbranchid },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "";
+                if (data.length == 0) {
+                    $("#StoreID").html("<option value=null></option>").show();
+                }
+                else {
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#StoreID").html(markup).show();
+                }
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+    }       
+</script>
+@if (ViewBag.confirm) 
+{
+    <h3>@ViewBag.message</h3>
+    using (Html.BeginForm("EditBranch", "StoreManager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="OK" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="statsid" value=@ViewBag.statsid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+else if (Model == null)
+{
+    <h3>@ViewBag.message</h3>   
+}
+else
+{
+    <h3>@ViewBag.name</h3>
+    using (Html.BeginForm("EditBranch", "StoreManager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Filial")
+                    @Html.DropDownList("SelectedBranchID", selectlistbranch.AsEnumerable(), htmlAttributes: new { @class = "form-control", @onchange = "javascript:EditStores(this.value);" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Lager")
+                    @Html.DropDownListFor(model => model.StoreID, selectliststore.AsEnumerable(), new {@onchange="javascript:ShowVal(this.value);", @class = "form-control"})
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Produkt")
+                    @Html.DropDownListFor(model => model.ProductID, selectlistproduct.AsEnumerable(), new { @class = "form-control", @style = "float:left;width:600px" })
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Antal")
+                    @Html.EditorFor(model => model.ProductQty, new { htmlAttributes = new { @class = "form-control", @type="number", @min="0"} })
+                    @Html.ValidationMessageFor(model => model.ProductQty, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="SPARA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+

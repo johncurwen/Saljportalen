@@ -1,0 +1,80 @@
+﻿@model SakraStats.stat
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.name</h2>
+
+@using (Html.BeginForm("Send","Stats",FormMethod.Post,new { @name = "form", @id = "form", @onsubmit="javascript:DisableSend();"}))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Datum")
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Kundkontakt")
+                    @Html.EditorFor(model => model.Contacts, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.Contacts, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Dem")
+                    @Html.EditorFor(model => model.Demos, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    @Html.ValidationMessageFor(model => model.Demos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Sälj")
+                @Html.EditorFor(model => model.Sales, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                @Html.ValidationMessageFor(model => model.Sales, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    @Html.Label("Omsättning")
+
+                }
+                else
+                {
+                    @Html.Label("Merförsäljning (kr)")
+                }
+                @Html.EditorFor(model => model.Turnover, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                @Html.ValidationMessageFor(model => model.Turnover, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.EmployeeID)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <input id="submit" name="submit" type="submit" value="NÄSTA" style="width:300px; background-color:#004387; color:white" class="btn btn-default"/>
+                <br />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+<script language="javascript" type="text/javascript">
+    function DisableSend()
+    {
+        document.getElementById("submit").disabled = true;
+    }
+</script>

@@ -1,0 +1,131 @@
+﻿@model List<stat>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime datestart = new DateTime(2016, 1, 1);
+    DateTime dateend = DateTime.Now;
+    if (ViewBag.datestart != null)
+    {
+        try
+        {
+            datestart = (DateTime)ViewBag.datestart;
+            dateend = (DateTime)ViewBag.dateend;
+        }
+        catch { }
+    }
+}
+<h2>@ViewBag.name</h2>
+@using (Html.BeginForm("Statistics", "Stats"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <text style="font-size:13pt">@datestart.ToString("yyyy-MM-dd") - @dateend.ToString("yyyy-MM-dd")</text>
+        <input type="submit" name="submit" value="Ändra" style="width:60px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="datestart" value=@ViewBag.datestart hidden="hidden" />
+        <input type="text" name="dateend" value=@ViewBag.dateend hidden="hidden" />
+    </div>
+}
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Datum")
+                </th>
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    <th>
+                        @Html.Label("KK")
+                    </th>
+                    <th>
+                        @Html.Label("Dem")
+                    </th>
+                    <th>
+                        @Html.Label("Sälj")
+                    </th>
+                }
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    <th>
+                        @Html.Label("Omst")
+                    </th>
+                }
+                else
+                {
+                    <th>
+                        @Html.Label("Merförsäljning (kr)")
+                    </th>
+                    <th>
+                        @Html.Label("Framkörning (kr)")
+                    </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @(((DateTime)item.Date).ToShortDateString())
+                </td>
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    <td>
+                        @item.Contacts
+                    </td>
+                    <td>
+                        @item.Demos
+                    </td>
+                    <td>
+                        @item.Sales
+                    </td>
+                }
+                <td>
+                    @item.Turnover
+                </td>
+                @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                    <td>
+                        @item.Service
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    @Html.Label("TOTALT: ")
+                </td>
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    <td>
+                        @Model.Sum(r => r.Contacts)
+                    </td>
+                    <td>
+                        @Model.Sum(r => r.Demos)
+                    </td>
+                    <td>
+                        @Model.Sum(r => r.Sales)
+                    </td>
+                }
+                <td>
+                    @Model.Sum(r => r.Turnover)
+                </td>
+                @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                    <td>
+                        @Model.Sum(r => r.Service)
+                    </td>
+                }
+            </tr>
+        </tfoot>
+    </table>

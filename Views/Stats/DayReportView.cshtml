@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SakraStats.demreport>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string nostr = "Inga rapport hittad för " + ViewBag.repemployee;
+}
+
+<h2>@ViewBag.name</h2>
+
+@if (Model.ToList().Count == 0)
+{
+    <h3>@nostr</h3>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Säljare")
+            </th>
+            <th>
+                @Html.Label("Datum")
+            </th>
+            <th>
+                @Html.Label("Adress")
+            </th>
+            <th>
+                @Html.Label("Ort")
+            </th>
+            <th>
+                @Html.Label("Resultat")
+            </th>
+            <th>
+                @Html.Label("Notering")
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.employee.FirstName @item.employee.LastName
+                </td>
+                <td>
+                    @((item.Date).ToString("yyyy-MM-dd"))
+                </td>
+                <td>
+                    @item.Address
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Result
+                </td>
+                <td>
+                    @item.Notes
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+
+
+

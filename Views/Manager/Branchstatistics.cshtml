@@ -1,0 +1,179 @@
+﻿@model List<List<SakraStats.Controllers.CollatedStats>>
+
+@using System.Globalization;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    DateTime datestart = new DateTime(2016, 1, 1);
+    DateTime dateend = DateTime.Now;
+    if (ViewBag.datestart != null)
+    {
+        try
+        {
+            datestart = (DateTime)ViewBag.datestart;
+            dateend = (DateTime)ViewBag.dateend;
+        }
+        catch { }
+    }
+}
+@if (ViewBag.accessid != "Gruppchef")
+{
+    <h2>@ViewBag.branchid</h2>
+}
+else
+{
+    <h2>Grupp:  @ViewBag.name</h2>
+}
+
+@using (Html.BeginForm("Statistics", "Manager"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <text style="font-size:13pt">@datestart.ToString("yyyy-MM-dd") - @dateend.ToString("yyyy-MM-dd")</text>
+        <input type="submit" name="submit" value="Ändra" style="width:60px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="datestart" value=@ViewBag.datestart hidden="hidden" />
+        <input type="text" name="dateend" value=@ViewBag.dateend hidden="hidden" />
+        <input type="text" name="showsellerfromview" value="false" hidden="hidden" />
+    </div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Filial")
+            </th>
+            @if (ViewBag.accessid != "Chefstekniker")
+            {
+                <th>
+                    @Html.Label("KK")
+                </th>
+                <th>
+                    @Html.Label("Dem")
+                </th>
+            }
+            <th>
+                @Html.Label("Sälj")
+            </th>
+            @if (ViewBag.accessid != "Chefstekniker")
+            {
+                <th>
+                    @Html.Label("Budget")
+                </th>
+                <th>
+                    @Html.Label("Omst")
+                </th>
+            }
+            else
+            {
+                <th>
+                    @Html.Label("Merf")
+                </th>
+            }
+            @if (ViewBag.accessid == "Chefstekniker" || ViewBag.accessid == "Administrator")
+            {
+                <th>
+                    @Html.Label("Framk")
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var branch in Model)
+        {
+            foreach (var item in branch)
+            {
+                <tr>
+                    <td>
+                        @item.sumbranchid
+                    </td>
+                    @if (ViewBag.accessid != "Chefstekniker")
+                    {
+                        <td>
+                            @item.sumcontacts
+                        </td>
+                        <td>
+                            @item.sumdemos
+                        </td>
+                    }
+                    <td>
+                        @item.sumsales
+                    </td>
+                    @if (ViewBag.accessid != "Chefstekniker")
+                    {
+                        <td>
+                            @item.budget
+                        </td>
+                        <td>
+                            @item.sumturnover
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @item.sumturnover
+                        </td>
+                    }
+                    @if (ViewBag.accessid == "Chefstekniker" || ViewBag.accessid == "Administrator")
+                    {
+                        <td>
+                            @item.sumservice
+                        </td>
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+    @{
+        if (@ViewBag.accessid!="Gruppchef")
+        {
+            <tfoot>
+                <tr>
+                    <td>
+                        @Html.Label("TOTALT: ")
+                    </td>
+                    @if (ViewBag.accessid != "Chefstekniker")
+                    {
+                        <td>
+                            @ViewBag.totalcontacts
+                        </td>
+                        <td>
+                            @ViewBag.totaldemos
+                        </td>
+                    }
+                    <td>
+                        @ViewBag.totalsales
+                    </td>
+                    @if (ViewBag.accessid != "Chefstekniker")
+                    {
+                        <td>
+                            @ViewBag.totalbudgets
+                        </td>
+                        <td>
+                            @ViewBag.totalturnover
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @ViewBag.totalturnover
+                        </td>
+                    }
+                    @if (ViewBag.accessid == "Chefstekniker" || ViewBag.accessid == "Administrator")
+                    {
+                        <td>
+                            @ViewBag.totalservice
+                        </td>
+                    }
+                </tr>
+            </tfoot>
+        }
+    }
+</table>

@@ -1,0 +1,119 @@
+﻿@model SakraStats.stat
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<demreport> demreps = ViewBag.demreps;
+    int demcount = 1;
+}
+
+<h2>@ViewBag.name</h2>
+
+@using (Html.BeginForm("Edit", "Stats"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.StatsID)
+        @Html.HiddenFor(model => model.EmployeeID)
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Datum")
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Kundk")
+                    @Html.EditorFor(model => model.Contacts, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Contacts, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Dem")
+                    @Html.EditorFor(model => model.Demos, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Demos, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Sälj")
+                    @Html.EditorFor(model => model.Sales, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Sales, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                @if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+                {
+                    @Html.Label("Omst")
+                }
+                else
+                {
+                    @Html.Label("Merförsäljning (kr)")
+                }
+                @Html.EditorFor(model => model.Turnover, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Turnover, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Framkörning (kr)")
+                    @Html.EditorFor(model => model.Service, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Service, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        }
+        @foreach (var demrep in demreps)
+        {
+            <br />
+            <h4>Dem @demcount</h4>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Adress")
+                    @Html.TextBox("Address", demrep.Address, new  { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Ort")
+                    @Html.TextBox("Name", demrep.Name, new  { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Resultat")
+                    @Html.TextBox("Result", demrep.Result, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Notering")
+                    @Html.TextBox("Notes", demrep.Notes, new  { @class = "form-control" })
+                </div>
+            </div>
+            { 
+                demcount++;
+            }
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" value="SPARA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <br />
+                <br />
+            </div>
+        </div>
+    </div>
+}
+
+        

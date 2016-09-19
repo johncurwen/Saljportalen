@@ -1,0 +1,137 @@
+﻿@model IEnumerable<SakraStats.employee>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int currentweek = ViewBag.currentweek;
+    int currentyear = ViewBag.currentyear;
+    int currentbudget = 4;
+    int[] budgets = ViewBag.budgets;
+    int[] weeks = ViewBag.weeks;
+    int[] years = ViewBag.years;
+    List<string> tempid = Model.Select(r=>r.EmployeeID).ToList();
+    List<string> tempname = Model.Select(r => r.FirstName + " " + r.LastName).ToList();
+    List<string> employeeidlistwhole = ViewBag.employeeidlist;
+    int i = 0;
+    List<SelectListItem> selectlist = new List<SelectListItem>();
+    foreach (var item in tempname)
+    {
+        var temp = new SelectListItem();
+        temp.Text = item;
+        temp.Value = tempid[i];
+        selectlist.Add(temp);
+        i++;
+    }
+}
+@if (ViewBag.branchid == "Huvudkontor")
+{
+    <h2>Alla filialer</h2>
+}
+else
+{
+    <h2>@ViewBag.branchid</h2>
+}
+@using (Html.BeginForm("AddBudgets", "Manager", FormMethod.Post))
+{
+    <div>
+        @Html.DropDownList("selected", selectlist.AsEnumerable(), null, new { style = "float:left; font-style:normal; width:185px", @class = "form-control" })
+    </div>
+
+    <input type="submit" name="submit" value="LÄGG TILL" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Namn")
+                </th>
+                @{
+                    if (@ViewBag.branchid == "Huvudkontor")
+                    {
+                        <th>
+                            @Html.Label("Filial")
+                        </th>
+                    }
+                }
+                <th>
+                    @Html.Label("Budget")
+                </th>
+                <th>
+                    @Html.Label("Vecka")
+                </th>
+                <th>
+                    @Html.Label("År")
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int j = 0;}
+            @foreach (var employeeidlist in employeeidlistwhole)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            @{ 
+                                string name = Model.Where(a => a.EmployeeID == employeeidlist).First().FirstName + " " + Model.Where(a => a.EmployeeID == employeeidlist).First().LastName;
+                            }
+                            @Html.DisplayFor(r=>name)
+                        </div>
+                    </td>
+                    @{
+                        if (@ViewBag.branchid == "Huvudkontor")
+                        {
+                            <td>
+                                @{
+                                    string BranchID = Model.Where(r => r.EmployeeID == employeeidlist).First().BranchID;
+                                }
+                                <div>@Html.DisplayFor(r=>BranchID)</div>
+                            </td>
+                        }
+                        if(budgets!=null)
+                        {
+                            if(j>budgets.Length-1)
+                            {
+                                currentbudget=4;
+                                currentweek=ViewBag.currentweek;
+                                currentyear=ViewBag.currentyear;
+                            }
+                            else
+                            {
+                                currentbudget=budgets[j];
+                                currentweek=weeks[j];
+                                currentyear=years[j];    
+                            }
+                            
+                        }
+                    }
+                    <td>
+                        <div><input type="number" name="Budget1" value=@currentbudget min="0" max="20" style="width:60px" class="form-control"></div>
+                    </td>
+                    <td>
+                        <div><input type="number" name="Week" value=@currentweek min="1" max="53" style="width:60px" class="form-control"></div>
+                    </td>
+                    <td>
+                        <div><input type="number" name="Year" value=@currentyear min = "2010" max = "2099" style = "width:80px" class = "form-control"></div>
+                    </td>
+                    <td>
+                        <div><input type="text" name="employeeidlist" value=@employeeidlist hidden="hidden"></div>
+                    </td>
+                </tr>
+                j++;
+            }
+        </tbody>
+    </table>
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="SPARA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+        <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+    </div>
+}

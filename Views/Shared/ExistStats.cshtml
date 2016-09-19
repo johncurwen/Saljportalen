@@ -1,0 +1,25 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+<h3>Du har redan anget statistik för @ViewBag.date.ToString("d MMM yyyy")!</h3>
+@if (ViewBag.accessid != "Tekniker" && ViewBag.accessid != "Chefstekniker")
+{
+    <div>
+        Kundkontakt:
+        @ViewBag.kk
+    </div>
+    <div>
+        Dem:
+        @ViewBag.dem
+    </div>
+}
+<div>
+    Sälj:
+    @ViewBag.sal
+</div>
+<div>
+    Omsättning: 
+    @ViewBag.oms
+</div>

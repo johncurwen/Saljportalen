@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.alertmessage</h2>
+
+@using (Html.BeginForm("Budgets", "Manager"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="confirmaction" value="OK" style="width:80px; background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="submit" value=@ViewBag.buttonpress hidden="hidden" />
+        <input type="text" name="alertmessage" value=@ViewBag.alertmessage hidden="hidden" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="budgetid" value=@ViewBag.BudgetID hidden="hidden" />
+        <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+        <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+    </div>
+}

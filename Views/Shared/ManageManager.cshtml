@@ -1,0 +1,281 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string branchid = ViewBag.branchid;
+    string employeeid = ViewBag.employeeid;
+    string name = ViewBag.name;
+    string groupstat = "FILIAL STATISTIK";
+    string groupkey = "FILIAL NYCKELTAL";
+    string singlestat = "SÄLJARE STATISTIK";
+    string singleday = "SÄLJARE DAG FÖR DAG";
+
+    if (ViewBag.accessid=="Gruppchef")
+    {
+        groupstat = "GRUPP STATISTIK";
+        groupkey = "GRUPP NYCKELTAL";
+    }
+    if (ViewBag.accessid == "Chefstekniker")
+    {
+        singlestat = "TEKNIKER STATISTIK";
+        singleday = "TEKNIKER DAG FÖR DAG";
+    }
+
+}
+@if (ViewBag.accessid!="Gruppchef")
+{
+    <h2>@ViewBag.branchid</h2>
+}
+else
+{
+    <h2>Grupp: @name</h2>
+}
+
+
+@if (ViewBag.accessid!="Gruppchef")
+{
+    using (Html.BeginForm("Statistics", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="@groupstat" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@using (Html.BeginForm("Statistics", "Manager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" id="SendStats" value="@singlestat" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.accessid != "Gruppchef")
+{
+    using (Html.BeginForm("StatisticsDay", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="FILIAL DAG FÖR DAG" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@using (Html.BeginForm("StatisticsDay", "Manager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" id="SendStats" value="@singleday" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+@if (ViewBag.accessid != "Gruppchef" && ViewBag.accessid != "Chefstekniker")
+{
+    using (Html.BeginForm("Key", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" id="SendStats" value="@groupkey" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (ViewBag.accessid != "Chefstekniker")
+{
+    using (Html.BeginForm("Key", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" id="SendStats" value="SÄLJARE NYCKELTAL" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (ViewBag.accessid == "DONOTSHOW")
+{
+    using (Html.BeginForm("Cancellations", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="FILIAL ÅNGER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (ViewBag.accessid == "DONOTSHOW")
+{
+    using (Html.BeginForm("Cancellations", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="SÄLJARE ÅNGER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (ViewBag.accessid == "DONOTSHOW")
+{
+    using (Html.BeginForm("Cancellations", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="NY ÅNGER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (ViewBag.accessid != "Gruppchef" && ViewBag.accessid != "Chefstekniker")
+{
+    using (Html.BeginForm("Budgets", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" id="SendStats" value="BUDGETS" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+}
+
+@if (ViewBag.accessid != "Chefstekniker")
+{
+    using (Html.BeginForm("Users", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" id="SendStats" value="ANVÄNDARE" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+    using (Html.BeginForm("Unreported", "Manager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="UTESTÅENDE RAPPORT" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                </div>
+            </div>
+        </div>
+    }
+    if (ViewBag.accessid == "Administrator" || ViewBag.accessid == "Säljare" || ViewBag.accessid == "Filialchef" || ViewBag.accessid == "Regionschef" || ViewBag.accessid == "VD" || ViewBag.accessid == "Försäljningschef")
+    {
+
+    }
+    if (true == false)
+    {
+        using (Html.BeginForm("View", "Calendar"))
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <input name="submit" type="submit" value="KALENDER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                        <br />
+                        <br />
+                        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                        <input type="text" name="manager" value="yes" hidden="hidden" />
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
+    
+    

@@ -1,0 +1,72 @@
+﻿@model List<SakraStats.carstat>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.name</h2>
+
+@using (Html.BeginForm("Manage", "Stores",FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Du ska leverera: 
+                </th>
+                <th>
+                    
+                </th>
+                <th>
+                    
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var model in Model)
+            {
+                <tr>
+                    <td>
+                        <div>@Html.DisplayFor(r => model.ProductID)</div>
+                    </td>
+                    <td>
+                        <div>@Html.DisplayFor(r => model.product.Name)</div>
+                    </td>
+                    <td>
+                        <div>@Html.HiddenFor(r=>model.StatsID)</div>
+                    </td>
+                    <td>
+                        <div>@Html.HiddenFor(r => model.DeliverProduct)</div>
+                    </td>
+                    <td>
+                        <div>@Html.HiddenFor(r => model.EmployeeID)</div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <br />
+    @Html.Label("Till (kundnummer): ")
+    <br />
+    @Html.TextBox("releasedto", "", new { htmlAttributes = new { @class = "form-control" } })
+    <br />
+    <br />
+    @Html.Label("Merförsäljning (kr): ")
+    <br />
+    @Html.TextBox("turnover", "", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+    <br />
+    <br />
+    @Html.Label("Framkörning (kr): ")
+    <br />
+    @Html.TextBox("service", "", new { htmlAttributes = new { @class = "form-control", @type="number", @min="0"} })
+    <br />
+    <br />
+
+    <input name="submit" type="submit" value="SPARA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+}

@@ -1,0 +1,43 @@
+﻿@model List<dynamic>
+
+@using System.Web.UI;
+
+@{
+    var date = Model[0] as List<string>;
+    var sales = Model[1] as List<int?>;
+    var demos = Model[2] as List<int?>;
+    var contacts = Model[3] as List<int?>;
+    var turnover = Model[4] as List<int?>;
+    var budget = Model[5] as List<int?>;
+    date.Reverse();
+    sales.Reverse();
+    demos.Reverse();
+    contacts.Reverse();
+    turnover.Reverse();
+    budget.Reverse();
+    if (date.Count!=0)
+    {
+        Chart key = new Chart(1200, 800, themePath: "~/ChartTheme.xml");
+        key.SetXAxis("Vecka");
+        key.SetYAxis("Antal",0,(double)demos.Max()+1);
+        //
+        //key.AddSeries(xValue: date, yValues: contacts, chartType: "Column",name:"KK",legend:"key");
+        //
+        //<Series Name="KK"
+        //        Color="Green">
+        //</Series>
+        //
+        //Goes in ChartTheme.xml
+        //
+        key.AddSeries(xValue: date, yValues: demos, chartType: "Column", name: "Dem", legend: "key");
+        key.AddSeries(xValue: date, yValues: sales, chartType: "Column", name: "Sälj", legend: "key");
+        key.AddSeries(xValue: date, yValues: budget, chartType: "Spline", name: "Budget", legend: "key");
+        key.AddLegend("Key", "key");
+        key.Write("png");
+    }
+    else
+    {
+
+    }
+
+}

@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+@using (Html.BeginForm("BranchStores", "StoreManager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" value="FILIAL LAGER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("TechStores", "StoreManager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" value="TEKNIKER LAGER" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("TechStores", "StoreManager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" value="ATT GODKÄNNA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("TechStores", "StoreManager"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <input name="submit" type="submit" value="LEVERERAD" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+
+    

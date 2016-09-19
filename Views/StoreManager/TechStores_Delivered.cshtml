@@ -1,0 +1,117 @@
+﻿@model List<SakraStats.Controllers.CollatedTech>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+@{
+    var allbranch = new List<string>();
+    var alltech = new List<string[]>();
+    foreach (var item in Model)
+    {
+        if (allbranch.Contains(item.BranchID)==false)
+        {
+            allbranch.Add(item.BranchID);
+        }
+        var temp = new string[] { item.EmployeeID, item.EmployeeName, item.BranchID };
+        if (!alltech.Any(temp.SequenceEqual))
+        {
+            alltech.Add(new string[] { item.EmployeeID, item.EmployeeName, item.BranchID });
+        }
+    }
+}
+@foreach (var branch in allbranch)
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <h3>@branch</h3>
+            <div class="col-md-10">
+                @foreach (var tech in alltech.Where(a => a[2] == @branch))
+                {
+                    <div class="col-md-12">
+                        <h4>@tech[1]</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.Label("Produktnamn")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Produkt#")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Levererad")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Kund#")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Flytta till lager")
+                                    </th>
+                                    <th>
+                                        @Html.Label("Ta bort")
+                                    </th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Where(r => r.EmployeeID == @tech[0]))
+                            {
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @item.ProductName
+                                        </td>
+                                        <td>
+                                            @item.ProductID
+                                        </td>
+                                        <td>
+                                            @item.ReleaseDate.Value.Date.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            @item.Customer
+                                        </td>
+                                        <td>
+                                            @using (Html.BeginForm("EditTech", "StoreManager"))
+                                            {
+                                                <div>
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.ValidationSummary(true)
+                                                    <input type="submit" name="submit" value="GO" style="float:left; font-size:10pt;width:47px; background-color:#004387; color:white" class="btn btn-default" />
+                                                    <br />
+                                                    <br />
+                                                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                                                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                                                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                                                    <input type="text" name="StatsID" value=@item.StatsID hidden="hidden" />
+                                                    <input type="text" name="from" value="move" hidden="hidden" />
+                                                    <input type="text" name="type" value="delivered" hidden="hidden" />
+                                                </div>
+                                            }
+                                        </td>
+                                        <td>
+                                            @using (Html.BeginForm("EditTech", "StoreManager"))
+                                            {
+                                                <div>
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.ValidationSummary(true)
+                                                    <input type="submit" name="submit" value="X" style="font-size:10pt;width:47px; background-color:#004387; color:white" class="btn btn-default" />
+                                                    <br />
+                                                    <br />
+                                                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                                                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                                                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                                                    <input type="text" name="statsid" value=@item.StatsID hidden="hidden" />
+                                                    <input type="text" name="type" value="delivered" hidden="hidden" />
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+<br />

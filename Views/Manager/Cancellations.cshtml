@@ -1,0 +1,112 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> selectlistemployee = ViewBag.selectlistemployee;
+    string formatteddate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+    int maxqty = 0;
+    int minqty = 0;
+    int maxval = 0;
+    int minval = 0;
+    if (ViewBag.qty!=null)
+    {
+        minqty = 1;
+        maxqty = ViewBag.qty;
+    }
+    if (ViewBag.value != null)
+    {
+        minval = 1;
+        maxval = ViewBag.value;
+    }
+}
+
+<h2>@ViewBag.name</h2>
+<form id="__AjaxAntiForgeryForm" action="#" method="post">
+    @Html.AntiForgeryToken()
+</form>
+@using (Html.BeginForm("Cancellations", "Manager"))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Anställd")
+                @Html.DropDownList("selectedemployeeid", selectlistemployee.AsEnumerable(), htmlAttributes: new { @class = "form-control", @onchange = "javascript:EditStats();" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Orderdatum")
+                <input type="date" class="form-control" name ="selecteddate" id="selecteddate" value="@formatteddate" onchange="javascript:EditStats();" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Orderdetaljer")
+                <input type="text" readonly="readonly" class="form-control" id="stat" name="stat" value="@ViewBag.stat" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Antal ånger")
+                <input type="number" min="@minqty" max="@maxqty" class="form-control" id="qty" name="qty" value="@ViewBag.qty" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Totalt värde")
+                <input type="number" min="@minval" max="@maxval" class="form-control" id="value" name="value" value="@ViewBag.value" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <br />
+                <input name="submit" type="submit" value="SPARA" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+                <br />
+                <br />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+<script language="javascript" type="text/javascript">
+    function EditStats() {
+        var selecteddate = document.getElementById("selecteddate").value;
+        var selectedemployeeid = document.getElementById("selectedemployeeid").value;
+                var url = "/Manager/GetStatFromId/";
+                var form = $('#__AjaxAntiForgeryForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+                $.ajax({
+                    url: url,
+                    data: { __RequestVerificationToken: token, employeeid: selectedemployeeid, date:selecteddate },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+                        if (data.Sales!="Ingen") {
+                            document.getElementById("stat").value = "Sälj:" + data.Sales + "   Omsättning:" + data.Turnover + "kr";
+                            document.getElementById("value").value = data.Turnover;
+                            document.getElementById("value").max = data.Turnover;
+                            document.getElementById("value").min = "1";
+                            document.getElementById("qty").value = data.Sales;
+                            document.getElementById("qty").max = data.Sales;
+                            document.getElementById("qty").min = "1";
+                        } else {
+                            document.getElementById("stat").value = data.Sales + " " + data.Turnover;
+                            document.getElementById("value").value = "";
+                            document.getElementById("value").max = "0";
+                            document.getElementById("value").min = "0";
+                            document.getElementById("qty").value = "";
+                            document.getElementById("qty").max = "0";
+                            document.getElementById("qty").min = "0";
+                        }
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+</script>
+
+

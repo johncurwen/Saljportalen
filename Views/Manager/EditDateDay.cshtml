@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Ändra period";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string act = "StatisticsDay";
+    string ctrl = "Manager";
+    DateTime datestart = new DateTime(2016, 1, 1);
+    DateTime dateend = DateTime.Now;
+    if (ViewBag.datestart != null)
+    {
+        try
+        {
+            datestart = (DateTime)ViewBag.datestart;
+            dateend = (DateTime)ViewBag.dateend;
+        }
+        catch { }
+    }
+}
+@using (Html.BeginForm(act, ctrl))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <h4>Period (start,slut):</h4>
+        <div class="form-group">
+            @Html.TextBox("datestart", ((DateTime)datestart).ToString("yyyy-MM-dd"), new { @style = "font-size:8pt; float:left; width:138px;", @class = "form-control", @type = "date" })
+            @Html.TextBox("dateend", ((DateTime)dateend).ToString("yyyy-MM-dd"), new { @style = "font-size:8pt; width:138px;", @class = "form-control", @type = "date" })
+        </div>
+        <input type="submit" name="submit" value="OK" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="showsellerfromview" value=@ViewBag.showsellerfromview hidden="hidden" />
+    </div>
+}

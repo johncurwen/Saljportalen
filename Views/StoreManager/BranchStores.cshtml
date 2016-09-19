@@ -1,0 +1,138 @@
+﻿@model List<SakraStats.Controllers.CollatedBranch>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+@{
+    var allbranch = new List<string>();
+    foreach (var item in Model)
+    {
+        if (allbranch.Contains(item.BranchID)==false)
+        {
+            allbranch.Add(item.BranchID);
+        }
+    }
+}
+@using (Html.BeginForm("EditBranch", "StoreManager"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <input type="submit" name="submit" value="Lägg till produkt" style="background-color:#004387; color:white" class="btn btn-default" />
+    <br />
+    <br />
+    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+}
+@if (allbranch.Count!=0)
+{
+    foreach (var branch in allbranch)
+    {
+        <h3>@branch</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Lager")
+                    </th>
+                    <th>
+                        @Html.Label("Produkt")
+                    </th>
+                    <th>
+                        @Html.Label("Artikelnummer")
+                    </th>
+                    <th>
+                        @Html.Label("Antal")
+                    </th>
+                    <th>
+                        @Html.Label("Värde")
+                    </th>
+                    <th>
+                        @Html.Label("Redigera antal")
+                    </th>
+                    <th>
+                        @Html.Label("Ta bort")
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.Where(r => r.BranchID == branch))
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @item.StoreID
+                        </td>
+                        <td>
+                            @item.ProductName
+                        </td>
+                        <td>
+                            @item.ProductID
+                        </td>
+                        <td>
+                            @item.ProductQty
+                        </td>
+                        <td>
+                            @item.ProductValue
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("EditBranch", "StoreManager"))
+                        {
+                                <div>
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    @Html.Editor("productqtyedit", "0", new { htmlAttributes = new { @min = -(item.ProductQty), @class = "form-control", @type = "number", @style = "float:left; width:99px" } })
+                                    <input type="submit" name="submit" value="GO" style="float:left; font-size:10pt;width:47px; background-color:#004387; color:white" class="btn btn-default" />
+                                    <br />
+                                    <br />
+                                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                                    <input type="text" name="statsid" value=@item.StatsID hidden="hidden" />
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("EditBranch", "StoreManager"))
+                        {
+                                <div>
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    <input type="submit" name="submit" value="X" style="font-size:10pt;width:47px; background-color:#004387; color:white" class="btn btn-default" />
+                                    <br />
+                                    <br />
+                                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                                    <input type="text" name="statsid" value=@item.StatsID hidden="hidden" />
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            }
+            <tfoot>
+                <tr>
+                    <td>
+                        @Html.Label("TOTALT: ")
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @Model.Where(r => r.BranchID == branch).Sum(r => r.ProductQty)
+                    </td>
+                    <td>
+                        @Model.Where(r => r.BranchID == branch).Sum(r => r.ProductValue)
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+}
+else
+{
+    @Html.Label("Inga lager att visa", new { @style = "font-size:15pt" })
+}
+
+

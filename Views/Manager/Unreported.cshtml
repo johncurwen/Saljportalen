@@ -1,0 +1,72 @@
+﻿@model List<List<SakraStats.user>>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int i = 0;
+    DateTime[] dates = ViewBag.dates;
+    List<bool[]> reported = ViewBag.reported;
+
+}
+@if (ViewBag.accessid != "Gruppchef")
+{
+    <h2>@ViewBag.branchid</h2>
+}
+else
+{
+    <h2>Grupp:  @ViewBag.name</h2>
+}
+@foreach (var date in Model)
+{
+    <h3>@dates[i].ToString("yyyy-MM-dd")</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Namn")
+                </th>
+                @{
+                    if (@ViewBag.branchid == "Huvudkontor")
+                    {
+                        <th>
+                            @Html.Label("Filial")
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in date)
+            {
+                <tr>
+                    @if (reported[i][date.IndexOf(user)] == true)
+                    {
+                        <td style="color:green">
+                            @user.employee.FirstName @user.employee.LastName
+                        </td>
+                        if (@ViewBag.branchid == "Huvudkontor")
+                        {
+                            <td style="color:green">
+                                @user.employee.BranchID
+                            </td>
+                        }
+                    }
+                    else
+                    {
+                        <td style="color:red">
+                            @user.employee.FirstName @user.employee.LastName
+                        </td>
+                        if (@ViewBag.branchid == "Huvudkontor")
+                        {
+                            <td style="color:red">
+                                @user.employee.BranchID
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+            @{
+                i++;
+            }
+        </tbody>
+    </table>
+}

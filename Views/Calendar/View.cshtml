@@ -1,0 +1,300 @@
+﻿@model List<IEnumerable<SakraStats.Controllers.CalType>>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int daysinmonth = ViewBag.daysinmonth;
+    string month = @ViewBag.month;
+    int monday = ViewBag.monday;
+    int modelcount = 0;
+    string four = " ";
+    string three = "";
+    int toDay = DateTime.Now.Day;
+    int toMon = DateTime.Now.Month;
+    int toYea = DateTime.Now.Year;
+    int intmonth = ViewBag.intmonth;
+    int intyear = ViewBag.intyear;
+    DateTime date = new DateTime(intyear, intmonth, 1);
+}
+<script language="javascript" type="text/javascript">
+    function ShowActivity(description) { alert(description); }
+</script>
+
+
+@if (ViewBag.manager == "yes")
+{
+    <h2>@ViewBag.branchid</h2>
+}
+else
+{
+    <h2>@ViewBag.name</h2>
+}
+
+<br />
+@using (Html.BeginForm("New", "Calendar"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="LÄGG TILL" style="float:left;width:115px;background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="manager" value="@ViewBag.manager" hidden="hidden" />
+    </div>
+}
+@using (Html.BeginForm("Edit", "Calendar"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="REDIGERA" style="float:left;width:115px;background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="month" value=@ViewBag.intmonth hidden="hidden" />
+        <input type="text" name="year" value=@ViewBag.intyear hidden="hidden" />
+        <input type="text" name="last" value=@ViewBag.daysinmonth hidden="hidden" />
+        <input type="text" name="manager" value="@ViewBag.manager" hidden="hidden" />
+    </div>
+}
+@using (Html.BeginForm("Delete", "Calendar"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="TA BORT" style="float:left;width:115px;background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="month" value=@ViewBag.intmonth hidden="hidden" />
+        <input type="text" name="year" value=@ViewBag.intyear hidden="hidden" />
+        <input type="text" name="last" value=@ViewBag.daysinmonth hidden="hidden" />
+        <input type="text" name="manager" value="@ViewBag.manager" hidden="hidden" />
+    </div>
+}
+@using (Html.BeginForm("View", "Calendar"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="<" style="float:left;background-color:#004387; color:white" class="btn btn-default" />
+        <input type="submit" name="submit" value=">" style="float:left;background-color:#004387;color:white" class="btn btn-default" />
+        <select class="form-control" id="currmonth" name="currmonth" style="width:130px;float:left;text-align:center">
+            @if (intmonth == 1) { <option selected="selected" value="1">Januari</option> } else { <option value="1">Januari</option> }
+            @if (intmonth == 2) { <option selected="selected" value="2">Februari</option> } else { <option value="2">Februari</option> }
+            @if (intmonth == 3) { <option selected="selected" value="3">Mars</option> } else { <option value="3">Mars</option> }
+            @if (intmonth == 4) { <option selected="selected" value="4">April</option> } else { <option value="4">April</option> }
+            @if (intmonth == 5) { <option selected="selected" value="5">Maj</option> } else { <option value="5">Maj</option> }
+            @if (intmonth == 6) { <option selected="selected" value="6">Juni</option> } else { <option value="6">Juni</option> }
+            @if (intmonth == 7) { <option selected="selected" value="7">Juli</option> } else { <option value="7">Juli</option> }
+            @if (intmonth == 8) { <option selected="selected" value="8">Augusti</option> } else { <option value="8">Augusti</option> }
+            @if (intmonth == 9) { <option selected="selected" value="9">September</option> } else { <option value="9">September</option> }
+            @if (intmonth == 10) { <option selected="selected" value="10">Oktober</option> } else { <option value="10">Oktober</option> }
+            @if (intmonth == 11) { <option selected="selected" value="11">November</option> } else { <option value="11">November</option> }
+            @if (intmonth == 12) { <option selected="selected" value="12">December</option> } else { <option value="12">December</option> }
+        </select>
+        <select class="form-control" id="curryear" name="curryear" style="width:100px;float:left;text-align:center">
+            @if (intyear == 2010) { <option selected="selected" value="2010">2010</option> } else { <option value="2010">2010</option> }
+            @if (intyear == 2011) { <option selected="selected" value="2011">2011</option> } else { <option value="2011">2011</option> }
+            @if (intyear == 2012) { <option selected="selected" value="2012">2012</option> } else { <option value="2012">2012</option> }
+            @if (intyear == 2013) { <option selected="selected" value="2013">2013</option> } else { <option value="2013">2013</option> }
+            @if (intyear == 2014) { <option selected="selected" value="2014">2014</option> } else { <option value="2014">2014</option> }
+            @if (intyear == 2015) { <option selected="selected" value="2015">2015</option> } else { <option value="2015">2015</option> }
+            @if (intyear == 2016) { <option selected="selected" value="2016">2016</option> } else { <option value="2016">2016</option> }
+            @if (intyear == 2017) { <option selected="selected" value="2017">2017</option> } else { <option value="2017">2017</option> }
+            @if (intyear == 2018) { <option selected="selected" value="2018">2018</option> } else { <option value="2018">2018</option> }
+            @if (intyear == 2019) { <option selected="selected" value="2019">2019</option> } else { <option value="2019">2019</option> }
+            @if (intyear == 2020) { <option selected="selected" value="2020">2020</option> } else { <option value="2020">2020</option> }
+            @if (intyear == 2021) { <option selected="selected" value="2021">2021</option> } else { <option value="2021">2021</option> }
+        </select>
+        <input type="submit" name="submit" value="GO" style="float:left;background-color:#004387;color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="date" value="@date" hidden="hidden" />
+        <input type="text" name="manager" value="@ViewBag.manager" hidden="hidden" />
+    </div>
+}
+
+
+ 
+
+<table class="table" cellspacing="0" cellpadding="0" style="display:block;padding:0px;border-collapse:collapse">
+    <tr>
+        <th>
+            @month.ToUpper()
+        </th>
+        @for (int i = 1; i <= daysinmonth; i++)
+            {
+            <th>
+                @if (toDay==i && toMon==intmonth && toYea==intyear)
+                {
+                    if (i == monday - 2)
+                    {
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:lightgray;background-color:gold" })
+                    }
+                    else if (i == monday - 1)
+                    {
+                        monday += 7;
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:lightgray;background-color:gold" })
+                    }
+                    else if (i == monday)
+                    {
+                        monday += 7;
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:black;background-color:gold" })
+                    }
+                    else
+                    {
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:black;background-color:gold" })
+                    }
+                }
+                else
+                {
+                    if (i == monday - 2)
+                    {
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:lightgray" })
+                    }
+                    else if (i == monday - 1)
+                    {
+                        monday += 7;
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:lightgray" })
+                    }
+                    else if (i == monday)
+                    {
+                        monday += 7;
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:black" })
+                    }
+                    else
+                    {
+                        @Html.Label((i.ToString()).ToString(), new { @style = "color:black" })
+                    }
+                }
+            </th>
+        }
+    </tr>
+    @foreach (var empcal in Model)
+    {
+        {
+            modelcount = 0;
+        }
+        <tr style="padding:0;margin:0">
+            <td>
+                @empcal.Min(r => r.name)
+            </td>
+            @for (int i = 1; i <= daysinmonth; i++)
+            {
+                if (empcal == null || empcal.ToList().Count == 0)
+                {
+                    if (toDay == i && toMon == intmonth && toYea == intyear)
+                    {
+                        <td style="padding:0;margin:0">
+                            @Html.TextBox("activity", i.ToString(), new { @readonly = "readonly", @style = "display:block;width:32px;background-color:gold;text-align:center;color:lightgray;font-weight:bold;padding-right:0px;padding-left:0px", @class = "form-control" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="padding:0;margin:0">
+                            @Html.TextBox("activity", i.ToString(), new { @readonly = "readonly", @style = "display:block;width:32px;background-color:white;text-align:center;color:lightgray;font-weight:bold;padding-right:0px;padding-left:0px", @class = "form-control" })
+                        </td>
+                    }
+                }
+                else if (empcal.ToList()[modelcount].day == i)
+                {
+                    if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "LDG")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="LDG" style="width:32px;background-color:orange;text-align:center;color:white;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "SEM")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="SEM" style="width:32px;background-color:yellow;text-align:center;color:gray;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "GRP")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="GRP" style="width:32px;background-color:mediumpurple;text-align:center;color:white;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "SJK")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="SJK" style="width:32px;background-color:red;text-align:center;color:white;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "VAB")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="VAB" style="width:32px;background-color:saddlebrown;text-align:center;color:white;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "FÖR")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="FÖR" style="width:32px;background-color:lightblue;text-align:center;color:gray;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    else if (@empcal.ToList()[modelcount].type.Substring(0, 3) == "UTB")
+                    {
+                        <td style="padding:0;margin:0">
+                            <input type="button" id="activity" name="@empcal.ToList()[modelcount].description" onclick="javascript:ShowActivity(this.name);" value="UTB" style="width:32px;background-color:lightgreen;text-align:center;color:gray;font-weight:bold;padding-right:0px;padding-left:0px" class="form-control" />
+                        </td>
+                    }
+                    if (@empcal.ToList().Count != modelcount + 1)
+                    {
+                        modelcount++;
+                    }
+                }
+                else
+                {
+                    if (toDay == i && toMon == intmonth && toYea == intyear)
+                    {
+                        <td style="padding:0;margin:0">
+                            @Html.TextBox("activity", i.ToString(), new { @readonly = "readonly", @style = "display:block;width:32px;background-color:gold;text-align:center;color:lightgray;font-weight:bold;padding-right:0px;padding-left:0px", @class = "form-control" })
+                        </td>
+                    }
+                    else
+                    {
+                        <td style="padding:0;margin:0">
+                            @Html.TextBox("activity", i.ToString(), new { @readonly = "readonly", @style = "display:block;width:32px;background-color:white;text-align:center;color:lightgray;font-weight:bold;padding-right:0px;padding-left:0px", @class = "form-control" })
+                        </td>
+                    }
+                }
+            }
+        </tr>
+    }
+</table>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="XX" style="float:left;width:32px;background-color:white;text-align:center;color:lightgray;font-weight:bold;padding:0" class="form-control" />
+<label style="width:85px;float:left;padding-top:7px"> Tillgänglig</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="SJK" style="float:left;width:32px;background-color:red;text-align:center;color:white;font-weight:bold;padding:0" class="form-control" />
+<label style="width:40px;float:left;padding-top:7px"> Sjuk</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="LDG" style="float:left;width:32px;background-color:orange;text-align:center;color:white;font-weight:bold;padding:0" class="form-control" />
+<label style="width:50px;float:left;padding-top:7px"> Ledig</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="SEM" style="float:left;width:32px;background-color:yellow;text-align:center;color:gray;font-weight:bold;padding:0" class="form-control" />
+<label style="width:70px;padding-top:7px"> Semester</label>
+
+<br />
+<br />
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="UTB" style="float:left;width:32px;background-color:lightgreen;text-align:center;color:gray;font-weight:bold;padding:0" class="form-control" />
+<label style="width:85px;float:left;padding-top:7px"> Utbildning</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="VAB" style="float:left;width:32px;background-color:saddlebrown;text-align:center;color:white;font-weight:bold;padding:0" class="form-control" />
+<label style="width:40px;float:left;padding-top:7px"> VAB</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="FÖR" style="float:left;width:32px;background-color:lightblue;text-align:center;color:gray;font-weight:bold;padding:0" class="form-control" />
+<label style="width:105px;float:left;padding-top:7px"> Föräldrarledig</label>
+
+<input type="text" id="legend" name="legend" readonly="readonly" value="GRP" style="float:left;width:32px;background-color:mediumpurple;text-align:center;color:white;font-weight:bold;padding:0" class="form-control" />
+<label style="width:90px;float:left;padding-top:7px"> Gruppjobb</label>
+<br />

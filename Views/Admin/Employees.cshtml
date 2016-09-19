@@ -1,0 +1,77 @@
+﻿@model IEnumerable<SakraStats.employee>
+
+@{
+    ViewBag.title = "Anställda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+@using (Html.BeginForm("Employees","Admin"))
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" name="submit" value="NEW" class="btn btn-default" />
+    <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+    <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+    <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.access.AccessID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateEmployed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BranchID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateEmployed)
+        </td>
+        <td>
+            @using (Html.BeginForm("Employees", "Admin"))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" name="submit" value="EDIT" class="btn btn-default" />
+                <input type="submit" name="submit" value="DELETE" class="btn btn-default" />
+                <input type="submit" name="submit" value="DETAILS" class="btn btn-default" />
+                <input type="text" name="id" value=@item.EmployeeID hidden="hidden" />
+                <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+                <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+                <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+            }
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,45 @@
+﻿@model List<string>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.name</h2>
+@{ 
+    int j = 0;
+}
+@foreach (var comp in Model)
+{
+    List<string> comptext = comp.Split('#').ToList();
+    <div class="form-horizontal" style="border:1px">
+        <h3>@comptext[0]</h3>
+        @{int i = 1;}
+        @while (comptext[i] != "*")
+        {
+            <label style="font-weight:normal;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">@comptext[i]</label>
+            <br />
+            i++;
+        }
+        @for (int k = i + 1; k < comptext.Count; k++)
+        {
+
+            if (@comptext[k].ToString() == "-KLART:" || @comptext[k].ToString() == "-RESULTAT:")
+            {
+                <label style="white-space:pre;font-weight:bold;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13pt;color:green">      @comptext[k]</label>
+            }
+            else if (@comptext[k].ToString() == "-NÄRA:")
+            {
+                <label style="white-space:pre;font-weight:bold;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13pt;color:orange">      @comptext[k]</label>
+            }
+            else if (@comptext[k].ToString() == "-TOPPLISTAN:")
+            {
+                <label style="white-space:pre;font-weight:bold;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13pt;color:brown">      @comptext[k]</label>
+            }
+            else
+            {
+                <label style="white-space:pre;font-weight:normal;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size:13pt">      @comptext[k]</label>
+            }
+            <br />
+        }
+    </div>
+}
+

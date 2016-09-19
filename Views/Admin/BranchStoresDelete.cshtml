@@ -1,0 +1,38 @@
+﻿@model SakraStats.store
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Are you sure you want to delete this branch?</h3>
+@using (Html.BeginForm("BranchStores", "Admin"))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.BranchID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BranchID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.StoreID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StoreID)
+            </dd>
+        </dl>
+            <div class="form-actions no-color">
+                <input type="submit" name="submit" value="Delete" class="btn btn-default" />
+                <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+                <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+                <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+                <input type="text" name="id" value="@ViewBag.storeid" hidden="hidden" />
+            </div>
+    </div>
+}

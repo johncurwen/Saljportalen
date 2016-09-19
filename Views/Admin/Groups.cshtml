@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SakraStats.group>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+@using (Html.BeginForm("Groups","Admin"))
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" name="submit" value="NEW" class="btn btn-default" />
+    <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+    <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+    <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Owner")
+        </th>
+        <th>
+            @Html.Label("Member")
+        </th>
+        <th>
+            @Html.Label("Branch")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    using (Html.BeginForm("Groups", "Admin"))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeID)
+                @Html.HiddenFor(modelItem => item.EmployeeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.employee.BranchID)
+                @Html.HiddenFor(modelItem => item.employee.BranchID)
+            </td>
+            <td>
+                @Html.AntiForgeryToken()
+                <input type="submit" name="submit" value="EDIT" class="btn btn-default" />
+                <input type="submit" name="submit" value="DELETE" class="btn btn-default" />
+                <input type="submit" name="submit" value="DETAILS" class="btn btn-default" />
+                <input type="text" name="id" value=@item.GroupID hidden="hidden" />
+                <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+                <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+                <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+            </td>
+        </tr>
+    }
+}
+</table>

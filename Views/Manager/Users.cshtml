@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SakraStats.user>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.accessid != "Gruppchef")
+{
+    <h2>@ViewBag.branchid</h2>
+}
+else
+{
+    <h2>Grupp: @ViewBag.name</h2>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Namn")
+            </th>
+            @{
+                if (@ViewBag.branchid=="Huvudkontor")
+                {
+                    <th>
+                        @Html.Label("Filial")
+                    </th>
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.employee.FirstName @item.employee.LastName
+                </td>
+                @{
+                    if (@ViewBag.branchid == "Huvudkontor")
+                    {
+                        <td>
+                            @item.employee.BranchID
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

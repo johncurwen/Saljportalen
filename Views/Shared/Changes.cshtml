@@ -1,0 +1,15 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+@if (ViewBag.message == null)
+{
+    <h3>Dina ändringar har sparats!</h3>
+}
+else
+{
+    <h3>@ViewBag.message</h3>
+}
+
+

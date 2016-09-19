@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "AddCompetition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Competitions", "Admin"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <h2>AddCompetition</h2>
+    <label>Competition name: </label>
+    <input type="text" name="CompName" class="form-control" />
+    <br />
+    <br />
+    <label>Date range: </label>
+    <input type="text" name="CompDate" class="form-control" />
+    <br />
+    <br />
+    <label>Requirement 1: </label>
+    <input type="text" name="CompReq1" class="form-control" />
+    <br />
+    <label>Requirement 2: </label>
+    <input type="text" name="CompReq2" class="form-control" />
+    <br />
+    <label>Requirement 3: </label>
+    <input type="text" name="CompReq3" class="form-control" />
+    <br />
+    <label>Requirement 4: </label>
+    <input type="text" name="CompReq4" class="form-control" />
+    <br />
+    <label>Requirement 5: </label>
+    <input type="text" name="CompReq5" class="form-control" />
+    <br />
+    <br />
+    <label>List1: </label>
+    <input type="text" name="List1" class="form-control" />
+    <br />
+    <label>List2: </label>
+    <input type="text" name="List2" class="form-control" />
+    <br />
+    <label>List3: </label>
+    <input type="text" name="List3" class="form-control" />
+    <br />
+    <label>List4: </label>
+    <input type="text" name="List4" class="form-control" />
+    <br />
+    <label>List5: </label>
+    <input type="text" name="List5" class="form-control" />
+    <br />
+    <br />
+    <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+    <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+    <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+    <input type="submit" name="submit" value="Save New" class="form-control" />
+}
+

@@ -1,0 +1,216 @@
+﻿@model List<List<SakraStats.Controllers.CompType>>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SakraStats.Controllers.CompRequirements> competitions = ViewBag.competitions;
+}
+
+<h2>@ViewBag.name</h2>
+@{ 
+    int j = 0;
+}
+@foreach (var comp in Model)
+{
+    <h3>@competitions[j].CompName</h3>
+    <h4>@competitions[j].DateStart.ToString("dd-MM-yyyy") - @competitions[j].DateEnd.ToString("dd-MM-yyyy")</h4>
+
+    if (@competitions[j].TopBoard != 999999999 && @competitions[j].Role != "")
+    {
+        <text>Bästa @if (@competitions[j].TopBoard>1) {@competitions[j].TopBoard } @competitions[j].Role</text>
+    }
+    else if (@competitions[j].TopBoard != 999999999)
+    {
+        <text>Bästa @if (@competitions[j].TopBoard > 1) {@competitions[j].TopBoard } anställda</text>
+    }
+    else if (@competitions[j].Role != "")
+    {
+        <text>Alla @competitions[j].Role</text>
+    }
+    else
+    {
+        <text>Alla </text>
+    }
+    if (@competitions[j].TotContacts == 0 | @competitions[j].TotDemos == 0 | @competitions[j].TotSales == 0 | @competitions[j].TotTurnover == 0 | @competitions[j].DayContacts == 0 | @competitions[j].DayDemos == 0 | @competitions[j].DaySales == 0 | @competitions[j].DayTurnover == 0)
+    {
+        <text> baserad på:</text>
+        <br />
+    }
+    else
+    {
+        <text>  som når en av de följande:</text>
+        <br />
+    }
+    if (@competitions[j].TotContacts != 999999999)
+    {
+        if (@competitions[j].TotContacts == 0)
+        {
+            <text> • Mest KK under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].TotContacts.ToString() KK under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].TotDemos != 999999999)
+    {
+        if (@competitions[j].TotDemos == 0)
+        {
+            <text> • Mest dem under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].TotDemos.ToString() dem under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].TotSales != 999999999)
+    {
+        if (@competitions[j].TotSales == 0)
+        {
+            <text> • Mest sälj under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].TotSales.ToString() sälj under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].TotTurnover != 999999999)
+    {
+        if (@competitions[j].TotTurnover == 0)
+        {
+            <text> • Högst omsättning under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].TotTurnover.ToString() i omsättning under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].DayContacts != 999999999)
+    {
+        if (@competitions[j].DayContacts == 0)
+        {
+            <text> • Mest KK på en dag under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].DayContacts.ToString() KK på en dag under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].DayDemos != 999999999)
+    {
+        if (@competitions[j].DayDemos == 0)
+        {
+            <text> • Mest dem på en dag under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].DayDemos.ToString() dem på en dag under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].DaySales != 999999999)
+    {
+        if (@competitions[j].DaySales == 0)
+        {
+            <text> • Mest sälj på en dag under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].DaySales.ToString() sälj på en dag under perioden</text>
+            <br />
+        }
+    }
+    if (@competitions[j].DayTurnover != 999999999)
+    {
+        if (@competitions[j].DayTurnover == 0)
+        {
+            <text> • Högst omsättning på en dag under perioden</text>
+            <br />
+        }
+        else
+        {
+            <text> • Minst @competitions[j].DayTurnover.ToString() i omsättning på en dag under perioden</text>
+            <br />
+        }
+    }
+    <br />
+
+    if (comp.Count!=0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Namn")
+                    </th>
+                    <th>
+                        @Html.Label("KK")
+                    </th>
+                    <th>
+                        @Html.Label("Dem")
+                    </th>
+                    <th>
+                        @Html.Label("Sälj")
+                    </th>
+                    <th>
+                        @Html.Label("Omsättning")
+                    </th>
+                    <th>
+                        @Html.Label("Datum")
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in comp)
+                {
+                    <tr>
+                        <td>
+                            @row.EmployeeName
+                        </td>
+                        <td>
+                            @row.Contacts
+                        </td>
+                        <td>
+                            @row.Demos
+                        </td>
+                        <td>
+                            @row.Sales
+                        </td>
+                        <td>
+                            @row.Turnover
+                        </td>
+                        <td>
+                            @if (@row.StatDate == null)
+                            {
+                                <text>Hela perioden</text>
+                            }
+                            else
+                            {
+                                <text>@(((DateTime)row.StatDate).ToString("dd-MM-yyyy"))</text>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+    }
+    else
+    {
+        <h4>************Ingen har nåt tävlingens krav************</h4>
+        <br />
+    }
+    j++;
+
+}
+

@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> selected = ViewBag.selected;
+}
+
+<h2>@ViewBag.name</h2>
+<br />
+
+@using (Html.BeginForm("Delete", "Calendar"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Kalenderpost", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("selected", selected.AsEnumerable(), new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="submit" value="RADERA" style="background-color:#004387; color:white; width:300px" class="btn btn-default" />
+                <br />
+                <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                <input type="text" name="manager" value="@ViewBag.manager" hidden="hidden" />
+            </div>
+        </div>
+    </div>
+}
+

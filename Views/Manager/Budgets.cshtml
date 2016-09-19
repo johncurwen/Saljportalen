@@ -1,0 +1,211 @@
+﻿@model IEnumerable<SakraStats.budget>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string defweekstart = "1";
+    string defyearstart = "2010";
+    string alertmessage = ViewBag.alertmessage;
+    bool disabledelete = false;
+    bool disableedit = false;
+    if (ViewBag.alertmessage==null)
+    {
+        disabledelete = true;
+        disableedit = true;
+    }
+    try
+    {
+        defweekstart = ViewBag.weekstart.ToString();
+        defyearstart = ViewBag.yearstart.ToString();
+    }
+    catch { }
+
+    List<SelectListItem> weeks = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text="1", Value="1"},
+            new SelectListItem() {Text="2", Value="2"},
+            new SelectListItem() {Text="3", Value="3"},
+            new SelectListItem() {Text="4", Value="4"},
+            new SelectListItem() {Text="5", Value="5"},
+            new SelectListItem() {Text="6", Value="6"},
+            new SelectListItem() {Text="7", Value="7"},
+            new SelectListItem() {Text="8", Value="8"},
+            new SelectListItem() {Text="9", Value="9"},
+            new SelectListItem() {Text="10", Value="10"},
+            new SelectListItem() {Text="11", Value="11"},
+            new SelectListItem() {Text="12", Value="12"},
+            new SelectListItem() {Text="13", Value="13"},
+            new SelectListItem() {Text="14", Value="14"},
+            new SelectListItem() {Text="15", Value="15"},
+            new SelectListItem() {Text="16", Value="16"},
+            new SelectListItem() {Text="17", Value="17"},
+            new SelectListItem() {Text="18", Value="18"},
+            new SelectListItem() {Text="19", Value="19"},
+            new SelectListItem() {Text="20", Value="20"},
+            new SelectListItem() {Text="21", Value="21"},
+            new SelectListItem() {Text="22", Value="22"},
+            new SelectListItem() {Text="23", Value="23"},
+            new SelectListItem() {Text="24", Value="24"},
+            new SelectListItem() {Text="25", Value="25"},
+            new SelectListItem() {Text="26", Value="26"},
+            new SelectListItem() {Text="27", Value="27"},
+            new SelectListItem() {Text="28", Value="28"},
+            new SelectListItem() {Text="29", Value="29"},
+            new SelectListItem() {Text="30", Value="30"},
+            new SelectListItem() {Text="31", Value="31"},
+            new SelectListItem() {Text="32", Value="32"},
+            new SelectListItem() {Text="33", Value="33"},
+            new SelectListItem() {Text="34", Value="34"},
+            new SelectListItem() {Text="35", Value="35"},
+            new SelectListItem() {Text="36", Value="36"},
+            new SelectListItem() {Text="37", Value="37"},
+            new SelectListItem() {Text="38", Value="38"},
+            new SelectListItem() {Text="39", Value="39"},
+            new SelectListItem() {Text="40", Value="40"},
+            new SelectListItem() {Text="41", Value="41"},
+            new SelectListItem() {Text="42", Value="42"},
+            new SelectListItem() {Text="43", Value="43"},
+            new SelectListItem() {Text="44", Value="44"},
+            new SelectListItem() {Text="45", Value="45"},
+            new SelectListItem() {Text="46", Value="46"},
+            new SelectListItem() {Text="47", Value="47"},
+            new SelectListItem() {Text="48", Value="48"},
+            new SelectListItem() {Text="49", Value="49"},
+            new SelectListItem() {Text="50", Value="50"},
+            new SelectListItem() {Text="51", Value="51"},
+            new SelectListItem() {Text="52", Value="52"},
+            new SelectListItem() {Text="53", Value="53"}
+        };
+    List<SelectListItem> years = new List<SelectListItem>()
+        {
+            new SelectListItem() {Text="2010", Value="2010"},
+            new SelectListItem() {Text="2011", Value="2011"},
+            new SelectListItem() {Text="2012", Value="2012"},
+            new SelectListItem() {Text="2013", Value="2013"},
+            new SelectListItem() {Text="2014", Value="2014"},
+            new SelectListItem() {Text="2015", Value="2015"},
+            new SelectListItem() {Text="2016", Value="2016"},
+            new SelectListItem() {Text="2017", Value="2017"},
+            new SelectListItem() {Text="2018", Value="2018"},
+            new SelectListItem() {Text="2019", Value="2019"},
+            new SelectListItem() {Text="2020", Value="2020"},
+            new SelectListItem() {Text="2021", Value="2021"},
+            new SelectListItem() {Text="2022", Value="2022"},
+            new SelectListItem() {Text="2023", Value="2023"},
+            new SelectListItem() {Text="2024", Value="2024"},
+            new SelectListItem() {Text="2025", Value="2025"},
+            new SelectListItem() {Text="2026", Value="2026"},
+            new SelectListItem() {Text="2027", Value="2027"},
+            new SelectListItem() {Text="2028", Value="2028"},
+            new SelectListItem() {Text="2029", Value="2029"},
+        };
+}
+@if (ViewBag.accessid == "Huvudkontor")
+{
+    <h2>Alla filialer</h2>
+}
+else
+{
+    <h2>@ViewBag.branchid</h2>
+}
+@using (Html.BeginForm("Budgets", "Manager"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <text style="font-size:13pt">v.@ViewBag.weekstart (@ViewBag.yearstart)</text>
+        <input type="submit" name="submit" value="Ändra" style="width:60px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+        <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+        <input type="text" name="lastpage" value="budgets" hidden="hidden" />
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Namn")
+            </th>
+            @{
+                if (@ViewBag.branchid=="Huvudkontor")
+                {
+                    <th>
+                        @Html.Label("Filial")
+                    </th>
+                }
+            }
+            <th>
+                @Html.Label("Budget")
+            </th>
+            <th>
+                @Html.Label("Vecka")
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.employee.FirstName @item.employee.LastName
+                </td>
+                @{
+                    if (@ViewBag.branchid == "Huvudkontor")
+                    {
+                        <td>
+                            @item.employee.BranchID
+                        </td>
+                    }
+                }
+                <td>
+                    @item.Budget1
+                </td>
+                <td>
+                    @item.Week
+                </td>
+                <td>
+                    @using (Html.BeginForm("Budgets", "Manager"))
+                    {
+                        <div>
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <input type="submit" name="submit" value="X" readonly=@disabledelete style="width:30px; background-color:#004387; color:white" class="btn btn-default" />
+                            <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                            <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                            <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                            <input type="text" name="budgetid" value=@item.BudgetID hidden="hidden" />
+                            <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+                            <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+                        </div>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+@using (Html.BeginForm("Budgets", "Manager"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="REDIGERA" readonly=@disableedit style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="submit" name="submit" value="LÄGG TILL NY" readonly=@disableedit style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+        <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+    </div>
+}

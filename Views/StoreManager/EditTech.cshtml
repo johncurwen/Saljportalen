@@ -1,0 +1,286 @@
+﻿@model SakraStats.storestat
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (ViewBag.confirm == null)
+    {
+        ViewBag.confirm = false;
+    }
+    if (ViewBag.tostore == null)
+    {
+        ViewBag.tostore = false;
+    }
+    List<SelectListItem> selectlistbranch = ViewBag.selectlistbranch;
+    List<SelectListItem> selectliststore = ViewBag.selectliststore;
+
+    List<SelectListItem> SELLselectlist = ViewBag.SELLselectlist;
+    List<SakraStats.Controllers.StorestatDropDown> PRODselectlist = ViewBag.PRODselectlist;
+    List<SakraStats.Controllers.StorestatDropDown> STORselectlist = ViewBag.STORselectlist;
+    List<SelectListItem> PRODselectlistfield = new List<SelectListItem>();
+    List<SelectListItem> STORselectlistfield = new List<SelectListItem>();
+    string MaxQty = "~~";
+    if (Model != null)
+    {
+        foreach (var stat in PRODselectlist)
+        {
+            PRODselectlistfield.Add(new SelectListItem()
+            {
+                Text = stat.Text,
+                Value = stat.Value
+            });
+        }
+        foreach (var store in STORselectlist)
+        {
+            STORselectlistfield.Add(new SelectListItem()
+            {
+                Text = store.Text,
+                Value = store.Value
+            });
+        }
+    }
+
+}
+<form id="__AjaxAntiForgeryForm" action="#" method="post">
+    @Html.AntiForgeryToken()
+</form>
+<input type="text" id="accessid" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+<input type="text" id="branchid" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+<script language="javascript" type="text/javascript">
+            function EditStores(selectedbranchid) {
+                var procemessage = "<option value='0'> Please wait...</option>";
+                $("#StoreID").html(procemessage).show();
+                var url = "/StoreManager/GetStores/";
+                var form = $('#__AjaxAntiForgeryForm');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
+                $.ajax({
+                    url: url,
+                    data: { __RequestVerificationToken: token, selectedbranchid: selectedbranchid },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+                        var markup = "";
+                        if (data.length == 0) {
+                            $("#StoreID").html("<option value=null></option>").show();
+                        }
+                        else {
+                            for (var x = 0; x < data.length; x++) {
+                                markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                            }
+                            $("#StoreID").html(markup).show();
+                        }
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+            }
+</script>
+<script language="javascript" type="text/javascript">
+                function EditProducts(storeid) {
+                    var accessid = document.getElementById("accessid").value;
+                    var branchid = document.getElementById("branchid").value;
+                    var procemessage = "<option value='0'> Please wait...</option>";
+                    $("#ProductID").html(procemessage).show();
+                    var url = "/StoreManager/Get/";
+                    var form = $('#__AjaxAntiForgeryForm');
+                    var token = $('input[name="__RequestVerificationToken"]', form).val();
+                    $.ajax({
+                        url: url,
+                        data: { __RequestVerificationToken: token, storeid: storeid, branchid: branchid, accessid: accessid },
+                        cache: false,
+                        type: "POST",
+                        success: function (data) {
+                            var markup = "";
+                            if (data.length == 0) {
+                                $("#ProductID").html("<option value=null></option>").show();
+                                $("#MaxBox").val(value = "   I lager: ~~");
+                                document.getElementById("ProductQty").max = "999999";
+                            }
+                            else {
+                                for (var x = 0; x < data.length; x++) {
+                                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                                }
+                                if (data[0].Qty == null) {
+                                    $("#MaxBox").val(value = "   I lager: ~~");
+                                    document.getElementById("ProductQty").max = "999999";
+                                }
+                                else {
+                                    $("#MaxBox").val(value = "   I lager: " + data[0].Qty);
+                                    if (data[0].Qty < document.getElementById("ProductQty").value) {
+                                        document.getElementById("ProductQty").value = data[0].Qty;
+                                        document.getElementById("ProductQty").max = data[0].Qty;
+                                    }
+                                    else {
+                                        document.getElementById("ProductQty").max = data[0].Qty;
+                                    }
+                                }
+                                $("#ProductID").html(markup).show();
+                            }
+                        },
+                        error: function (reponse) {
+                            alert("error : " + reponse);
+                        }
+                    });
+                }
+</script>
+<script language="javascript" type="text/javascript">
+                function SetMax(statsid) {
+                    var accessid = document.getElementById("accessid").value;
+                    var branchid = document.getElementById("branchid").value;
+                    var productnumber = document.getElementById("ProductID").value;
+                    if (productnumber.substring(0, 6) != "PROD**") {
+                        var url = "/StoreManager/GetMax/";
+                        var form = $('#__AjaxAntiForgeryForm');
+                        var token = $('input[name="__RequestVerificationToken"]', form).val();
+                        $.ajax({
+                            url: url,
+                            data: { __RequestVerificationToken: token, statsid: statsid },
+                            cache: false,
+                            type: "POST",
+                            success: function (data) {
+                                var markup = "";
+                                if (data.length == 0 || data[0].Qty == null) {
+                                    $("#MaxBox").val(value = "   I lager: ~~");
+                                    document.getElementById("ProductQty").max = "999999";
+                                }
+                                else {
+                                    $("#MaxBox").val(value = "   I lager: " + data[0].Qty);
+                                    if (data[0].Qty < document.getElementById("ProductQty").value) {
+                                        document.getElementById("ProductQty").value = data[0].Qty;
+                                        document.getElementById("ProductQty").max = data[0].Qty;
+                                    }
+                                    else {
+                                        document.getElementById("ProductQty").max = data[0].Qty;
+                                    }
+                                }
+                            },
+                            error: function (reponse) {
+                                alert("error : " + reponse);
+                            }
+                        });
+                    }
+                }
+</script>
+<script language="javascript" type="text/javascript">
+                function VisStore() {
+                    var checkstate = document.getElementById("usestore").checked;
+                    var currentstore = document.getElementById("StoreID").value;
+                    if (checkstate) {
+                        document.getElementById("StoreID").style = "visibility:visible"
+                        EditProducts(currentstore);
+                    }
+                    else {
+                        document.getElementById("StoreID").style = "visibility:hidden"
+                        EditProducts(null);
+                    }
+                }
+</script>
+@if (ViewBag.tostore)
+{
+    <div class="form-horizontal">
+        <h3>@ViewBag.name</h3>
+
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Filial")
+                    @Html.DropDownList("SelectedBranchID", selectlistbranch.AsEnumerable(), htmlAttributes: new { @class = "form-control", @onchange = "javascript:EditStores(this.value);" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Lager")
+                    @Html.DropDownListFor(model => model.StoreID, selectliststore.AsEnumerable(), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input name="submit" type="submit" value="FLYTTA" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="ProductID" value=@ViewBag.ProductID hidden="hidden" />
+                    <input type="text" name="TechID" value=@ViewBag.TechID hidden="hidden" />
+                    <input type="text" name="ProductQty" value=@ViewBag.ProductQty hidden="hidden" />
+                    <input type="text" name="statsid" value=@ViewBag.statsid hidden="hidden" />
+                    <input type="text" name="type" value=@ViewBag.type hidden="hidden" />
+                </div>
+            </div>
+        }
+    </div>
+}
+else if (ViewBag.confirm)
+{
+    <h3>@ViewBag.message</h3>
+    using (Html.BeginForm("EditTech", "StoreManager"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input name="submit" type="submit" value="OK" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+                    <br />
+                    <br />
+                    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                    <input type="text" name="ProductID" value=@ViewBag.ProductID hidden="hidden" />
+                    <input type="text" name="TechID" value=@ViewBag.TechID hidden="hidden" />
+                    <input type="text" name="statsid" value=@ViewBag.statsid hidden="hidden" />
+                    <input type="text" name="type" value=@ViewBag.type hidden="hidden" />
+
+                </div>
+            </div>
+        </div>
+    }
+}
+else if (Model == null)
+{
+    <h3>@ViewBag.message</h3>
+}
+else
+{
+    <div>
+        <h3>@ViewBag.name</h3>
+        @using (Html.BeginForm("EditTech", "StoreManager"))
+        {
+            @Html.CheckBox("usestore", false, new { @style = "font-size:15pt", @onchange = "javascript:VisStore();" })
+            @Html.Label("   Ta från lager")
+            @Html.DropDownList("StoreID", STORselectlistfield, htmlAttributes: new { @style = "visibility:hidden", @class = "form-control", @onchange = "javascript:EditProducts(this.value);" })
+            @Html.Label("Produkt")
+            <div>
+                @Html.DropDownList("ProductID", PRODselectlistfield, htmlAttributes: new { @style = "float:left;", @class = "form-control", @onchange = "javascript:SetMax(this.value);" })
+                @Html.TextBox("MaxBox", "   I lager: " + @MaxQty, new { @style = "font-weight:bold;border-style:none;background-color:white;float:left", @readonly = "readonly" })
+            </div>
+                <br />
+                <br />
+                @Html.Label("Tekniker")
+                @Html.DropDownList("TechID", SELLselectlist, htmlAttributes: new { @class = "form-control" })
+                @Html.Label("Antal")
+                @Html.TextBox("ProductQty", "0", new { @class = "form-control", @min = "0", @max = "999999", @type = "number" })
+                @Html.AntiForgeryToken()
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <br/>
+                            <input name="submit" type="submit" value="SPARA" style="width:100px; background-color:#004387; color:white" class="btn btn-default" />
+                            <br />
+                            <br />
+                            <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+                            <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+                            <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+                        </div>
+                    </div>
+                </div>
+        }
+    </div>
+}
+
+
+

@@ -1,0 +1,91 @@
+﻿@model SakraStats.stat
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Are you sure you want to delete this stat record?</h3>
+@using (Html.BeginForm("Statistics", "Admin"))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.StatsID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.StatsID)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.employee.BranchID)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.employee.BranchID)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Contacts)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Contacts)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Demos)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Demos)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Sales)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sales)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Turnover)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Turnover)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Date)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Date)
+            </dd>
+        </dl>
+            <div class="form-actions no-color">
+                <input type="submit" name="submit" value="Delete" class="btn btn-default" />
+                <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+                <input type="text" name="id" value=@ViewBag.statid hidden="hidden" />
+                <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+                <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+            </div>
+    </div>
+}

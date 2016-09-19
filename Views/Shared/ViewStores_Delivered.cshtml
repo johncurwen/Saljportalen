@@ -1,0 +1,150 @@
+﻿@model List<SakraStats.carstat>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> selectlistproduct = new List<SelectListItem>();
+    List<product> selectedproducts = new List<product>();
+
+    if (ViewBag.selectlistproduct!=null)
+    {
+        selectlistproduct = ViewBag.selectlistproduct;
+    }
+
+    if (ViewBag.selectedproducts != null)
+    {
+        selectedproducts = ViewBag.selectedproducts;
+    }
+}
+
+<h2>@ViewBag.name</h2>
+@if (ViewBag.type == "search")
+{
+    using (Html.BeginForm("Manage", "Stores", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Label("Kundnummer")
+        <input type="text" name="customer" value="" style="width:300px;" class="form-control" />
+        <br/>
+        <input name="submit" type="submit" value="SÖK" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <input type="text" name="type" value="choose" hidden="hidden" />
+        <input type="text" name="employeeid" value=@ViewBag.EmployeeID hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+    }
+}
+else if(Model.Count!=0)
+{
+    <h5>***Markera allt som du ska nedmontera***</h5>
+    using (Html.BeginForm("Manage", "Stores", FormMethod.Post))
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Utdelad
+                    </th>
+                    <th>
+                        Produkt
+                    </th>
+                    <th>
+                        Produkt#
+                    </th>
+                    <th>
+                        Markera
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var model in Model)
+                {
+                    <tr>
+                        <td>
+                            <div>@Html.DisplayFor(r => model.AssignedDate)</div>
+                        </td>
+                        <td>
+                            <div>@Html.DisplayFor(r => model.product.Name)</div>
+                        </td>
+                        <td>
+                            <div>@Html.DisplayFor(r => model.ProductID)</div>
+                        </td>
+                        <td>
+                            <div>@Html.CheckBoxFor(r => model.DeliverProduct)</div>
+                        </td>
+                        <td>
+                            <div>@Html.HiddenFor(r => model.StatsID)</div>
+                        </td>
+                        <td>
+                            <div>@Html.HiddenFor(r => model.EmployeeID)</div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input name="submit" type="submit" value="SPARA NEDMONTERING" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <input type="text" name="type" value="choose" hidden="hidden" />
+        <input type="text" name="employeeid" value=@ViewBag.EmployeeID hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+    }
+}
+else
+{
+    <h5>***Hittade ingen gamal montering som tillhör kundnummret***</h5>
+    using (Html.BeginForm("Manage", "Stores", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.Label("Produkt")
+        <br />
+        @Html.DropDownList("AddProductID", selectlistproduct, htmlAttributes: new { @style= "float:left; width:174px", @class = "form-control"})
+        <input name="submit" type="submit" value="LÄGG TILL" style="float:left; width:100px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <input type="text" name="type" value="choose" hidden="hidden" />
+        <input type="text" name="employeeid" value=@ViewBag.EmployeeID hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Produkt
+                    </th>
+                    <th>
+                        Produkt#
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in selectedproducts)
+                {
+                    <tr>
+                        <td>
+                            <div>@Html.DisplayFor(r => product.Name)</div>
+                        </td>
+                        <td>
+                            <div>@Html.DisplayFor(r => product.ProductID)</div>
+                            <div><input type="text" name="ProductID" value="@product.ProductID" hidden="hidden" /></div>
+                        </td>
+                        <td>
+                            <div><input type="checkbox" name="DeliverProduct" value="true" hidden="hidden"/></div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input name="submit" type="submit" value="SPARA NEDMONTERING" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <input type="text" name="type" value="choose" hidden="hidden" />
+        <input type="text" name="employeeid" value=@ViewBag.EmployeeID hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+    }
+}
+
+

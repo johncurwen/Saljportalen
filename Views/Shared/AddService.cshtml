@@ -1,0 +1,29 @@
+﻿@model List<SakraStats.stat>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.name</h2>
+
+@using (Html.BeginForm("Manage", "Stores",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <br />
+    @Html.Label("Merförsäljning (kr): ")
+    <br />
+    @Html.TextBox("turnover", "", new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+    <br />
+    <br />
+    @Html.Label("Framkörning (kr): ")
+    <br />
+    @Html.TextBox("service", "", new { htmlAttributes = new { @class = "form-control", @type="number", @min="0"} })
+    <br />
+    <br />
+
+    <input name="submit" type="submit" value="SPARA SERVICE" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+    <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+    <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+    <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+}

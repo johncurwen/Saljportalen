@@ -1,0 +1,122 @@
+﻿@model IEnumerable<SakraStats.budget>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string defweekstart = "1";
+    string defyearstart = "2010";
+    string alertmessage = ViewBag.alertmessage;
+    try
+    {
+        defweekstart = ViewBag.weekstart.ToString();
+        defyearstart = ViewBag.yearstart.ToString();
+    }
+    catch { }
+}
+@if (ViewBag.accessid == "Huvudkontor")
+{
+    <h2>Alla filialer</h2>
+}
+else
+{
+    <h2>@ViewBag.branchid</h2>
+}
+@{
+    if (ViewBag.branchid == "Huvudkontor")
+    {
+        <h3>Budgets</h3>
+    }
+    else
+    {
+        <h3>Budgets (@ViewBag.branchid)</h3>
+    }
+}
+@using (Html.BeginForm("EditBudgets", "Manager", FormMethod.Post))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Namn")
+                </th>
+                @{
+                    if (@ViewBag.branchid=="Huvudkontor")
+                    {
+                        <th>
+                            @Html.Label("Filial")
+                        </th>
+                    }
+                }
+                <th>
+                    @Html.Label("Budget")
+                </th>
+                <th>
+                    @Html.Label("Vecka")
+                </th>
+                <th>
+                    @Html.Label("År")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var model in Model)
+            {
+                <tr>
+                    <td>
+                        <div>
+                            @Html.DisplayFor(r => model.employee.FirstName)
+                            @Html.DisplayFor(r => model.employee.LastName)
+                        </div>
+                    </td>
+                    @{
+                        if (@ViewBag.branchid == "Huvudkontor")
+                        {
+                            <td>
+                                <div>@Html.DisplayFor(r => model.employee.BranchID)</div>
+                            </td>
+                        }
+                    }
+                    <td>
+                        <div>@Html.TextBoxFor(r=>model.Budget1, new { @min = "0", @max = "20", @style = "width:60px", @class = "form-control", @type = "number" })</div>
+                    </td>
+                    <td>
+                        <div>@Html.TextBoxFor(r => model.Week, new { @min = "1", @max = "53", @style = "width:60px", @class = "form-control", @type = "number" })</div>
+                    </td>
+                    <td>
+                        @if (model.BudgetStart.Year != model.BudgetEnd.Year)
+                        {
+                            if (model.BudgetStart.Day >= 29)
+                            {
+                                <div>@Html.TextBox("Year", model.BudgetEnd.Year, new { @min = "2010", @max = "2099", @style = "width:80px", @class = "form-control", @type = "number" })</div>
+                            }
+                            else
+                            {
+                                <div>@Html.TextBox("Year", model.BudgetStart.Year, new { @min = "2010", @max = "2099", @style = "width:80px", @class = "form-control", @type = "number" })</div>
+                            }
+                        }
+                        else
+                        {
+                            <div>@Html.TextBox("Year", model.BudgetStart.Year, new { @min = "2010", @max = "2099", @style = "width:80px", @class = "form-control", @type = "number"})</div>
+                        }                                  
+                    </td>
+                    <td>
+                        <div>@Html.HiddenFor(r => model.BudgetID)</div>
+                    </td>
+                    <td>
+                        <div>@Html.HiddenFor(r => model.EmployeeID)</div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <input type="submit" name="submit" value="SPARA" style="width:300px; background-color:#004387; color:white" class="btn btn-default" />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="weekstart" value=@ViewBag.weekstart hidden="hidden" />
+        <input type="text" name="yearstart" value=@ViewBag.yearstart hidden="hidden" />
+    </div>
+}

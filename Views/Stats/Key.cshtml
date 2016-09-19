@@ -1,0 +1,100 @@
+﻿@model List<SakraStats.Controllers.CollatedKey>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string holder = "~";
+    DateTime datestart = new DateTime(2016, 1, 1);
+    DateTime dateend = DateTime.Now;
+    if (ViewBag.datestart != null)
+    {
+        try
+        {
+            datestart = (DateTime)ViewBag.datestart;
+            dateend = (DateTime)ViewBag.dateend;
+        }
+        catch { }
+    }
+}
+<h2>@ViewBag.name</h2>
+@using (Html.BeginForm("Key", "Stats"))
+{
+    <div>
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <text style="font-size:13pt">@datestart.ToString("yyyy-MM-dd") - @dateend.ToString("yyyy-MM-dd")</text>
+        <input type="submit" name="submit" value="Ändra" style="width:60px; background-color:#004387; color:white" class="btn btn-default" />
+        <br />
+        <br />
+        <input type="text" name="employeeid" value=@ViewBag.employeeid hidden="hidden" />
+        <input type="text" name="accessid" value=@ViewBag.accessid hidden="hidden" />
+        <input type="text" name="branchid" value=@ViewBag.branchid hidden="hidden" />
+        <input type="text" name="datestart" value=@ViewBag.datestart hidden="hidden" />
+        <input type="text" name="dateend" value=@ViewBag.dateend hidden="hidden" />
+        <input type="text" name="showsellerfromview" value="true" hidden="hidden" />
+    </div>
+}
+@try
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("Datum")
+                </th>
+                <th>
+                    @Html.Label("KK/dem")
+                </th>
+                <th>
+                    @Html.Label("Dem/sälj")
+                </th>
+                <th>
+                    @Html.Label("Omst/sälj")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @try
+                {
+                    foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @if (item.sumemployeeid == "SNITT : ")
+                            {
+                                @Html.Label(item.sumemployeeid)
+                            }
+                            else
+                            {
+                                @(((DateTime)item.sumdate).ToShortDateString())
+                            }
+                        </td>
+                        <td>
+                            @if (item.sumcontacts == null)
+                            { @holder }
+                            else
+                            {@Math.Round((decimal)item.sumcontacts, 2)}
+                        </td>
+                        <td>
+                            @if (item.sumdemos == null)
+                            { @holder }
+                            else
+                            {@Math.Round((decimal)item.sumdemos, 2)}
+                        </td>
+                        <td>
+                            @if (item.sumturnover == null)
+                            { @holder }
+                            else
+                            {@Math.Round((decimal)item.sumturnover, 2)}
+                        </td>
+                    </tr>
+                }
+            }
+            catch
+            {
+
+            }
+        </tbody>
+    </table>
+}
+catch { }

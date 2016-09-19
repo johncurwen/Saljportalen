@@ -1,0 +1,188 @@
+﻿@model List<IEnumerable<SakraStats.Controllers.LeaderBoardType>>
+   
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.name</h2>
+<h5>**Listor baseras på inrapporterade siffror**</h5>
+
+<h3>Nationella topplistor</h3>
+<h4>@DateTime.Now.ToString("MMM yyyy")</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Namn")
+            </th>
+            @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+            {
+                <th>
+                    @Html.Label("Merförsäljning (kr)")
+                </th>
+            }
+            else
+            {
+                <th>
+                    @Html.Label("Sälj")
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model[2])
+        {
+            <tr>
+                <td>
+                    @item.sumname
+                </td>
+                @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                    <td>
+                        @item.sumturnover
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @item.sumsales
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<h4>@DateTime.Now.AddMonths(-1).ToString("MMM yyyy")</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Namn")
+        </th>
+        @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+            {
+            <th>
+                @Html.Label("Merförsäljning (kr)")
+            </th>
+        }
+        else
+        {
+            <th>
+                @Html.Label("Sälj")
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model[3])
+    {
+        <tr>
+            <td>
+                @item.sumname
+            </td>
+            @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                <td>
+                    @item.sumturnover
+                </td>
+            }
+            else
+            {
+                <td>
+                    @item.sumsales
+                </td>
+            }
+        </tr>
+    }
+</table>
+<br />
+<br />
+<h3>@ViewBag.branchid topplistor</h3>
+<h4>@DateTime.Now.ToString("MMM yyyy")</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Namn")
+        </th>
+        @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+            {
+            <th>
+                @Html.Label("Merförsäljning (kr)")
+            </th>
+        }
+        else
+        {
+            <th>
+                @Html.Label("Sälj")
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model[0])
+    {
+        <tr>
+            <td>
+                @item.sumname
+            </td>
+            @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                <td>
+                    @item.sumturnover
+                </td>
+            }
+            else
+            {
+                <td>
+                    @item.sumsales
+                </td>
+            }
+        </tr>
+    }
+</table>
+<br />
+<br />
+<h4>@DateTime.Now.AddMonths(-1).ToString("MMM yyyy")</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.Label("Namn")
+        </th>
+        @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+            {
+            <th>
+                @Html.Label("Merförsäljning (kr)")
+            </th>
+        }
+        else
+        {
+            <th>
+                @Html.Label("Sälj")
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model[1])
+    {
+        <tr>
+            <td>
+                @item.sumname
+            </td>
+            @if (ViewBag.accessid == "Tekniker" || ViewBag.accessid == "Chefstekniker")
+                {
+                <td>
+                    @item.sumturnover
+                </td>
+            }
+            else
+            {
+                <td>
+                    @item.sumsales
+                </td>
+            }
+        </tr>
+    }
+</table>
+

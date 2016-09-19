@@ -1,0 +1,58 @@
+﻿@model IEnumerable<SakraStats.product>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+@using (Html.BeginForm("Products","Admin"))
+{
+    @Html.AntiForgeryToken()
+    <input type="submit" name="submit" value="NEW" class="btn btn-default" />
+    <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+    <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+    <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @using (Html.BeginForm("Products", "Admin"))
+            {
+                @Html.AntiForgeryToken()
+                <input type="submit" name="submit" value="EDIT" class="btn btn-default" />
+                <input type="submit" name="submit" value="DELETE" class="btn btn-default" />
+                <input type="submit" name="submit" value="DETAILS" class="btn btn-default" />
+                <input type="text" name="id" value=@item.ProductID hidden="hidden" />
+                <input type="text" name="employeeidstr" value=@ViewBag.employeeidstr hidden="hidden" />
+                <input type="text" name="accessidstr" value=@ViewBag.accessidstr hidden="hidden" />
+                <input type="text" name="branchidstr" value=@ViewBag.branchidstr hidden="hidden" />
+            }
+        </td>
+    </tr>
+}
+</table>
