@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="07ca076ab60c499a893a14ff323be89b" Name="Diagram1" ZoomLevel="88">
+        <EntityTypeShape EntityType="HomeModel.access" Width="1.5" PointX="6" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeModel.branch" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeModel.employee" Width="1.5" PointX="0.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeModel.stat" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeModel.user" Width="1.5" PointX="8.75" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="HomeModel.FK_branches_employees" ManuallyRouted="false" />
+        <AssociationConnector Association="HomeModel.FK_employees_stats" ManuallyRouted="false" />
+        <AssociationConnector Association="HomeModel.FK_employees_users" ManuallyRouted="false" />
+        <AssociationConnector Association="HomeModel.FK_employees_access" />
+        <EntityTypeShape EntityType="HomeModel.carstat" Width="1.5" PointX="8.25" PointY="5.75" />
+        <EntityTypeShape EntityType="HomeModel.product" Width="1.5" PointX="5.875" PointY="10.875" />
+        <EntityTypeShape EntityType="HomeModel.store" Width="1.5" PointX="3" PointY="7.125" />
+        <EntityTypeShape EntityType="HomeModel.storestat" Width="1.5" PointX="8.25" PointY="10" />
+        <AssociationConnector Association="HomeModel.FK_stores_branches" />
+        <AssociationConnector Association="HomeModel.FK_carstats_employees" />
+        <AssociationConnector Association="HomeModel.FK_carstats_products" />
+        <AssociationConnector Association="HomeModel.FK_storestats_products" />
+        <AssociationConnector Association="HomeModel.FK_storestats_stores" />
+        <EntityTypeShape EntityType="HomeModel.budget" Width="1.5" PointX="7" PointY="1.75" />
+        <AssociationConnector Association="HomeModel.FK_budgets_employees" />
+        <EntityTypeShape EntityType="HomeModel.group" Width="1.5" PointX="3.75" PointY="10.5" />
+        <AssociationConnector Association="HomeModel.FK_groups_employees" />
+        <AssociationConnector Association="HomeModel.FK_groups_employees_member" />
+        <EntityTypeShape EntityType="HomeModel.competition" Width="1.5" PointX="0.75" PointY="11.375" />
+        <EntityTypeShape EntityType="HomeModel.calendar" Width="1.5" PointX="0.5" PointY="14.375" />
+        <EntityTypeShape EntityType="HomeModel.demreport" Width="1.5" PointX="3.5" PointY="12.75" />
+        <AssociationConnector Association="HomeModel.FK_calendars_employees" />
+        <AssociationConnector Association="HomeModel.FK_demreports_employees" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,1040 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HomeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="access">
+          <Key>
+            <PropertyRef Name="AccessID" />
+          </Key>
+          <Property Name="AccessID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AcCompetitions" Type="bit" Nullable="false" />
+          <Property Name="AcEmployees" Type="bit" Nullable="false" />
+          <Property Name="AcStats" Type="bit" Nullable="false" />
+          <Property Name="AcAccess" Type="bit" Nullable="false" />
+          <Property Name="AcUsers" Type="bit" Nullable="false" />
+          <Property Name="AcBranches" Type="bit" Nullable="false" />
+          <Property Name="AcWeb" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="branches">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address1" Type="varchar" MaxLength="255" />
+          <Property Name="Address2" Type="varchar" MaxLength="255" />
+          <Property Name="Address3" Type="varchar" MaxLength="255" />
+          <Property Name="Postcode" Type="varchar" MaxLength="255" />
+          <Property Name="Tel" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="budgets">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Budget" Type="int" Nullable="false" />
+          <Property Name="BudgetStart" Type="date" Nullable="false" />
+          <Property Name="BudgetEnd" Type="date" Nullable="false" />
+          <Property Name="Week" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="calendars">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventName" Type="varchar" MaxLength="255" />
+          <Property Name="EventStart" Type="date" Nullable="false" />
+          <Property Name="EventEnd" Type="date" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EventType" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="SingleDay" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="carstats">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReleasedTo" Type="varchar" MaxLength="50" />
+          <Property Name="AssignedDate" Type="date" Nullable="false" />
+          <Property Name="ReleasedDate" Type="date" />
+          <Property Name="Approved" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="competitions">
+          <Key>
+            <PropertyRef Name="CompetitionsID" />
+          </Key>
+          <Property Name="CompetitionsID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateStart" Type="date" Nullable="false" />
+          <Property Name="DateEnd" Type="date" Nullable="false" />
+          <Property Name="TotSales" Type="int" />
+          <Property Name="TotTurnover" Type="int" />
+          <Property Name="DaySales" Type="int" />
+          <Property Name="DayTurnover" Type="int" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="Places" Type="int" />
+          <Property Name="CompText" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="demreports">
+          <Key>
+            <PropertyRef Name="DemID" />
+          </Key>
+          <Property Name="DemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Telephone" Type="varchar" MaxLength="255" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+          <Property Name="Result" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Notes" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="BranchID" Type="varchar" MaxLength="50" />
+          <Property Name="Address1" Type="varchar" MaxLength="255" />
+          <Property Name="Address2" Type="varchar" MaxLength="255" />
+          <Property Name="Address3" Type="varchar" MaxLength="255" />
+          <Property Name="Postcode" Type="varchar" MaxLength="50" />
+          <Property Name="Tel" Type="varchar" MaxLength="50" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="DateEmployed" Type="date" />
+          <Property Name="DateFinished" Type="date" />
+        </EntityType>
+        <EntityType Name="groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" />
+          <Property Name="MemberID" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="12" Scale="2" />
+        </EntityType>
+        <EntityType Name="stats">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" />
+          <Property Name="Contacts" Type="int" />
+          <Property Name="Demos" Type="int" />
+          <Property Name="Sales" Type="int" />
+          <Property Name="Turnover" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Service" Type="int" />
+        </EntityType>
+        <EntityType Name="stores">
+          <Key>
+            <PropertyRef Name="StoreID" />
+          </Key>
+          <Property Name="StoreID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchID" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="storestats">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StoreID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductQty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pass" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_branches_employees">
+          <End Role="branches" Type="Self.branches" Multiplicity="0..1" />
+          <End Role="employees" Type="Self.employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="branches">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_budgets_employees">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="budgets" Type="Self.budgets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="budgets">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_calendars_employees">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="calendars" Type="Self.calendars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="calendars">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_carstats_employees">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="carstats" Type="Self.carstats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="carstats">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_carstats_products">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="carstats" Type="Self.carstats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="carstats">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_demreports_employees">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="demreports" Type="Self.demreports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="demreports">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employees_access">
+          <End Role="access" Type="Self.access" Multiplicity="0..1" />
+          <End Role="employees" Type="Self.employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="access">
+              <PropertyRef Name="AccessID" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employees_stats">
+          <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+          <End Role="stats" Type="Self.stats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="stats">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employees_users">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groups_employees">
+          <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+          <End Role="groups" Type="Self.groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="groups">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groups_employees_member">
+          <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+          <End Role="groups" Type="Self.groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="groups">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_stores_branches">
+          <End Role="branches" Type="Self.branches" Multiplicity="1" />
+          <End Role="stores" Type="Self.stores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="branches">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="stores">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_storestats_products">
+          <End Role="products" Type="Self.products" Multiplicity="1" />
+          <End Role="storestats" Type="Self.storestats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="storestats">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_storestats_stores">
+          <End Role="stores" Type="Self.stores" Multiplicity="1" />
+          <End Role="storestats" Type="Self.storestats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="stores">
+              <PropertyRef Name="StoreID" />
+            </Principal>
+            <Dependent Role="storestats">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeModelStoreContainer">
+          <EntitySet Name="access" EntityType="Self.access" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="branches" EntityType="Self.branches" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="budgets" EntityType="Self.budgets" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="calendars" EntityType="Self.calendars" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="carstats" EntityType="Self.carstats" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="competitions" EntityType="Self.competitions" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="demreports" EntityType="Self.demreports" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="employees" EntityType="Self.employees" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="groups" EntityType="Self.groups" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="stats" EntityType="Self.stats" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="stores" EntityType="Self.stores" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="storestats" EntityType="Self.storestats" Schema="urbansoft" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="urbansoft" store:Type="Tables" />
+          <AssociationSet Name="FK_branches_employees" Association="Self.FK_branches_employees">
+            <End Role="branches" EntitySet="branches" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_budgets_employees" Association="Self.FK_budgets_employees">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="budgets" EntitySet="budgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_calendars_employees" Association="Self.FK_calendars_employees">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="calendars" EntitySet="calendars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_carstats_employees" Association="Self.FK_carstats_employees">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="carstats" EntitySet="carstats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_carstats_products" Association="Self.FK_carstats_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="carstats" EntitySet="carstats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_demreports_employees" Association="Self.FK_demreports_employees">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="demreports" EntitySet="demreports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_access" Association="Self.FK_employees_access">
+            <End Role="access" EntitySet="access" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_stats" Association="Self.FK_employees_stats">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="stats" EntitySet="stats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_users" Association="Self.FK_employees_users">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groups_employees" Association="Self.FK_groups_employees">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="groups" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groups_employees_member" Association="Self.FK_groups_employees_member">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="groups" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stores_branches" Association="Self.FK_stores_branches">
+            <End Role="branches" EntitySet="branches" />
+            <End Role="stores" EntitySet="stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_storestats_products" Association="Self.FK_storestats_products">
+            <End Role="products" EntitySet="products" />
+            <End Role="storestats" EntitySet="storestats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_storestats_stores" Association="Self.FK_storestats_stores">
+            <End Role="stores" EntitySet="stores" />
+            <End Role="storestats" EntitySet="storestats" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HomeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="access">
+          <Key>
+            <PropertyRef Name="AccessID" />
+          </Key>
+          <Property Name="AccessID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AcCompetitions" Type="Boolean" Nullable="false" />
+          <Property Name="AcEmployees" Type="Boolean" Nullable="false" />
+          <Property Name="AcStats" Type="Boolean" Nullable="false" />
+          <Property Name="AcAccess" Type="Boolean" Nullable="false" />
+          <Property Name="AcUsers" Type="Boolean" Nullable="false" />
+          <Property Name="AcBranches" Type="Boolean" Nullable="false" />
+          <Property Name="AcWeb" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="employees" Relationship="HomeModel.FK_employees_access" FromRole="access" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="branch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="BranchID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Postcode" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="employees" Relationship="Self.FK_branches_employees" FromRole="branches" ToRole="employees" />
+          <NavigationProperty Name="stores" Relationship="HomeModel.FK_stores_branches" FromRole="branch" ToRole="store" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Postcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="branch" Relationship="Self.FK_branches_employees" FromRole="employees" ToRole="branches" />
+          <NavigationProperty Name="stats" Relationship="Self.FK_employees_stats" FromRole="employees" ToRole="stats" />
+          <NavigationProperty Name="users" Relationship="Self.FK_employees_users" FromRole="employees" ToRole="users" />
+          <NavigationProperty Name="access" Relationship="HomeModel.FK_employees_access" FromRole="employee" ToRole="access" />
+          <NavigationProperty Name="carstats" Relationship="HomeModel.FK_carstats_employees" FromRole="employee" ToRole="carstat" />
+          <NavigationProperty Name="budgets" Relationship="HomeModel.FK_budgets_employees" FromRole="employee" ToRole="budget" />
+          <NavigationProperty Name="groups" Relationship="HomeModel.FK_groups_employees" FromRole="employee" ToRole="group" />
+          <NavigationProperty Name="groups1" Relationship="HomeModel.FK_groups_employees_member" FromRole="employee" ToRole="group" />
+          <Property Name="DateEmployed" Type="DateTime" Precision="0" />
+          <Property Name="DateFinished" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="calendars" Relationship="HomeModel.FK_calendars_employees" FromRole="employee" ToRole="calendar" />
+          <NavigationProperty Name="demreports" Relationship="HomeModel.FK_demreports_employees" FromRole="employee" ToRole="demreport" />
+        </EntityType>
+        <EntityType Name="stat">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contacts" Type="Int32" />
+          <Property Name="Demos" Type="Int32" />
+          <Property Name="Sales" Type="Int32" />
+          <Property Name="Turnover" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="employee" Relationship="Self.FK_employees_stats" FromRole="stats" ToRole="employees" />
+          <Property Name="Service" Type="Int32" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="Username" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pass" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="employee" Relationship="Self.FK_employees_users" FromRole="users" ToRole="employees" />
+        </EntityType>
+        <Association Name="FK_branches_employees">
+          <End Role="branches" Type="Self.branch" Multiplicity="0..1" />
+          <End Role="employees" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="branches">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employees_stats">
+          <End Role="employees" Type="Self.employee" Multiplicity="0..1" />
+          <End Role="stats" Type="Self.stat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="stats">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employees_users">
+          <End Role="employees" Type="Self.employee" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="accesses" EntityType="Self.access" />
+          <EntitySet Name="branches" EntityType="Self.branch" />
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="stats" EntityType="Self.stat" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_branches_employees" Association="Self.FK_branches_employees">
+            <End Role="branches" EntitySet="branches" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_stats" Association="Self.FK_employees_stats">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="stats" EntitySet="stats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_users" Association="Self.FK_employees_users">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employees_access" Association="HomeModel.FK_employees_access">
+            <End Role="access" EntitySet="accesses" />
+            <End Role="employee" EntitySet="employees" />
+          </AssociationSet>
+          <EntitySet Name="carstats" EntityType="HomeModel.carstat" />
+          <EntitySet Name="products" EntityType="HomeModel.product" />
+          <EntitySet Name="stores" EntityType="HomeModel.store" />
+          <EntitySet Name="storestats" EntityType="HomeModel.storestat" />
+          <AssociationSet Name="FK_stores_branches" Association="HomeModel.FK_stores_branches">
+            <End Role="branch" EntitySet="branches" />
+            <End Role="store" EntitySet="stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_carstats_employees" Association="HomeModel.FK_carstats_employees">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="carstat" EntitySet="carstats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_carstats_products" Association="HomeModel.FK_carstats_products">
+            <End Role="product" EntitySet="products" />
+            <End Role="carstat" EntitySet="carstats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_storestats_products" Association="HomeModel.FK_storestats_products">
+            <End Role="product" EntitySet="products" />
+            <End Role="storestat" EntitySet="storestats" />
+          </AssociationSet>
+          <AssociationSet Name="FK_storestats_stores" Association="HomeModel.FK_storestats_stores">
+            <End Role="store" EntitySet="stores" />
+            <End Role="storestat" EntitySet="storestats" />
+          </AssociationSet>
+          <EntitySet Name="budgets" EntityType="HomeModel.budget" />
+          <AssociationSet Name="FK_budgets_employees" Association="HomeModel.FK_budgets_employees">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="budget" EntitySet="budgets" />
+          </AssociationSet>
+          <EntitySet Name="groups" EntityType="HomeModel.group" />
+          <AssociationSet Name="FK_groups_employees" Association="HomeModel.FK_groups_employees">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="group" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_groups_employees_member" Association="HomeModel.FK_groups_employees_member">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="group" EntitySet="groups" />
+          </AssociationSet>
+          <EntitySet Name="competitions" EntityType="HomeModel.competition" />
+          <EntitySet Name="calendars" EntityType="HomeModel.calendar" />
+          <EntitySet Name="demreports" EntityType="HomeModel.demreport" />
+          <AssociationSet Name="FK_calendars_employees" Association="HomeModel.FK_calendars_employees">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="calendar" EntitySet="calendars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_demreports_employees" Association="HomeModel.FK_demreports_employees">
+            <End Role="employee" EntitySet="employees" />
+            <End Role="demreport" EntitySet="demreports" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_employees_access">
+          <End Type="HomeModel.access" Role="access" Multiplicity="0..1" />
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="access">
+              <PropertyRef Name="AccessID" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="carstat">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ReleasedTo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReleasedDate" Type="DateTime" Precision="0" />
+          <Property Name="Approved" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="employee" Relationship="HomeModel.FK_carstats_employees" FromRole="carstat" ToRole="employee" />
+          <NavigationProperty Name="product" Relationship="HomeModel.FK_carstats_products" FromRole="carstat" ToRole="product" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Decimal" Precision="12" Scale="2" />
+          <NavigationProperty Name="carstats" Relationship="HomeModel.FK_carstats_products" FromRole="product" ToRole="carstat" />
+          <NavigationProperty Name="storestats" Relationship="HomeModel.FK_storestats_products" FromRole="product" ToRole="storestat" />
+        </EntityType>
+        <EntityType Name="store">
+          <Key>
+            <PropertyRef Name="StoreID" />
+          </Key>
+          <Property Name="StoreID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BranchID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="branch" Relationship="HomeModel.FK_stores_branches" FromRole="store" ToRole="branch" />
+          <NavigationProperty Name="storestats" Relationship="HomeModel.FK_storestats_stores" FromRole="store" ToRole="storestat" />
+        </EntityType>
+        <EntityType Name="storestat">
+          <Key>
+            <PropertyRef Name="StatsID" />
+          </Key>
+          <Property Name="StatsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StoreID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProductQty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="product" Relationship="HomeModel.FK_storestats_products" FromRole="storestat" ToRole="product" />
+          <NavigationProperty Name="store" Relationship="HomeModel.FK_storestats_stores" FromRole="storestat" ToRole="store" />
+        </EntityType>
+        <Association Name="FK_stores_branches">
+          <End Type="HomeModel.branch" Role="branch" Multiplicity="1" />
+          <End Type="HomeModel.store" Role="store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="branch">
+              <PropertyRef Name="BranchID" />
+            </Principal>
+            <Dependent Role="store">
+              <PropertyRef Name="BranchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_carstats_employees">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="1" />
+          <End Type="HomeModel.carstat" Role="carstat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="carstat">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_carstats_products">
+          <End Type="HomeModel.product" Role="product" Multiplicity="1" />
+          <End Type="HomeModel.carstat" Role="carstat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="carstat">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_storestats_products">
+          <End Type="HomeModel.product" Role="product" Multiplicity="1" />
+          <End Type="HomeModel.storestat" Role="storestat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="storestat">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_storestats_stores">
+          <End Type="HomeModel.store" Role="store" Multiplicity="1" />
+          <End Type="HomeModel.storestat" Role="storestat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="store">
+              <PropertyRef Name="StoreID" />
+            </Principal>
+            <Dependent Role="storestat">
+              <PropertyRef Name="StoreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="budget">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Budget1" Type="Int32" Nullable="false" />
+          <Property Name="BudgetStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BudgetEnd" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Week" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employee" Relationship="HomeModel.FK_budgets_employees" FromRole="budget" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK_budgets_employees">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="1" />
+          <End Type="HomeModel.budget" Role="budget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="budget">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="group">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MemberID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="employee" Relationship="HomeModel.FK_groups_employees" FromRole="group" ToRole="employee" />
+          <NavigationProperty Name="employee1" Relationship="HomeModel.FK_groups_employees_member" FromRole="group" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK_groups_employees">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="0..1" />
+          <End Type="HomeModel.group" Role="group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="group">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_groups_employees_member">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="0..1" />
+          <End Type="HomeModel.group" Role="group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="group">
+              <PropertyRef Name="MemberID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="competition">
+          <Key>
+            <PropertyRef Name="CompetitionsID" />
+          </Key>
+          <Property Name="CompetitionsID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotSales" Type="Int32" />
+          <Property Name="TotTurnover" Type="Int32" />
+          <Property Name="DaySales" Type="Int32" />
+          <Property Name="DayTurnover" Type="Int32" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Places" Type="Int32" />
+          <Property Name="CompText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="calendar">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="EventStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EventEnd" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EventType" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="SingleDay" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="employee" Relationship="HomeModel.FK_calendars_employees" FromRole="calendar" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="demreport">
+          <Key>
+            <PropertyRef Name="DemID" />
+          </Key>
+          <Property Name="DemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Result" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="employee" Relationship="HomeModel.FK_demreports_employees" FromRole="demreport" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK_calendars_employees">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="1" />
+          <End Type="HomeModel.calendar" Role="calendar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="calendar">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_demreports_employees">
+          <End Type="HomeModel.employee" Role="employee" Multiplicity="1" />
+          <End Type="HomeModel.demreport" Role="demreport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="demreport">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HomeModelStoreContainer" CdmEntityContainer="HomeContext">
+          <EntitySetMapping Name="accesses">
+            <EntityTypeMapping TypeName="HomeModel.access">
+              <MappingFragment StoreEntitySet="access">
+                <ScalarProperty Name="AccessID" ColumnName="AccessID" />
+                <ScalarProperty Name="AcCompetitions" ColumnName="AcCompetitions" />
+                <ScalarProperty Name="AcEmployees" ColumnName="AcEmployees" />
+                <ScalarProperty Name="AcStats" ColumnName="AcStats" />
+                <ScalarProperty Name="AcAccess" ColumnName="AcAccess" />
+                <ScalarProperty Name="AcUsers" ColumnName="AcUsers" />
+                <ScalarProperty Name="AcBranches" ColumnName="AcBranches" />
+                <ScalarProperty Name="AcWeb" ColumnName="AcWeb" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="branches">
+            <EntityTypeMapping TypeName="HomeModel.branch">
+              <MappingFragment StoreEntitySet="branches">
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="HomeModel.employee">
+              <MappingFragment StoreEntitySet="employees">
+                <ScalarProperty Name="DateFinished" ColumnName="DateFinished" />
+                <ScalarProperty Name="DateEmployed" ColumnName="DateEmployed" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="Address1" ColumnName="Address1" />
+                <ScalarProperty Name="Address2" ColumnName="Address2" />
+                <ScalarProperty Name="Address3" ColumnName="Address3" />
+                <ScalarProperty Name="Postcode" ColumnName="Postcode" />
+                <ScalarProperty Name="Tel" ColumnName="Tel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stats">
+            <EntityTypeMapping TypeName="HomeModel.stat">
+              <MappingFragment StoreEntitySet="stats">
+                <ScalarProperty Name="Service" ColumnName="Service" />
+                <ScalarProperty Name="StatsID" ColumnName="StatsID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Contacts" ColumnName="Contacts" />
+                <ScalarProperty Name="Demos" ColumnName="Demos" />
+                <ScalarProperty Name="Sales" ColumnName="Sales" />
+                <ScalarProperty Name="Turnover" ColumnName="Turnover" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="HomeModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Pass" ColumnName="Pass" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="carstats">
+            <EntityTypeMapping TypeName="HomeModel.carstat">
+              <MappingFragment StoreEntitySet="carstats">
+                <ScalarProperty Name="Approved" ColumnName="Approved" />
+                <ScalarProperty Name="ReleasedDate" ColumnName="ReleasedDate" />
+                <ScalarProperty Name="AssignedDate" ColumnName="AssignedDate" />
+                <ScalarProperty Name="ReleasedTo" ColumnName="ReleasedTo" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="StatsID" ColumnName="StatsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="HomeModel.product">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="stores">
+            <EntityTypeMapping TypeName="HomeModel.store">
+              <MappingFragment StoreEntitySet="stores">
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="storestats">
+            <EntityTypeMapping TypeName="HomeModel.storestat">
+              <MappingFragment StoreEntitySet="storestats">
+                <ScalarProperty Name="ProductQty" ColumnName="ProductQty" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="StoreID" ColumnName="StoreID" />
+                <ScalarProperty Name="StatsID" ColumnName="StatsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="budgets">
+            <EntityTypeMapping TypeName="HomeModel.budget">
+              <MappingFragment StoreEntitySet="budgets">
+                <ScalarProperty Name="Week" ColumnName="Week" />
+                <ScalarProperty Name="BudgetEnd" ColumnName="BudgetEnd" />
+                <ScalarProperty Name="BudgetStart" ColumnName="BudgetStart" />
+                <ScalarProperty Name="Budget1" ColumnName="Budget" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="BudgetID" ColumnName="BudgetID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="groups">
+            <EntityTypeMapping TypeName="HomeModel.group">
+              <MappingFragment StoreEntitySet="groups">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="competitions">
+            <EntityTypeMapping TypeName="HomeModel.competition">
+              <MappingFragment StoreEntitySet="competitions">
+                <ScalarProperty Name="CompText" ColumnName="CompText" />
+                <ScalarProperty Name="Places" ColumnName="Places" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="DayTurnover" ColumnName="DayTurnover" />
+                <ScalarProperty Name="DaySales" ColumnName="DaySales" />
+                <ScalarProperty Name="TotTurnover" ColumnName="TotTurnover" />
+                <ScalarProperty Name="TotSales" ColumnName="TotSales" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="CompetitionsID" ColumnName="CompetitionsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="calendars">
+            <EntityTypeMapping TypeName="HomeModel.calendar">
+              <MappingFragment StoreEntitySet="calendars">
+                <ScalarProperty Name="SingleDay" ColumnName="SingleDay" />
+                <ScalarProperty Name="EventType" ColumnName="EventType" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="demreports">
+            <EntityTypeMapping TypeName="HomeModel.demreport">
+              <MappingFragment StoreEntitySet="demreports">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="DemID" ColumnName="DemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
